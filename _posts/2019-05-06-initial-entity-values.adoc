@@ -332,4 +332,4 @@ UI 层的属性初始化方式只在用户使用特定与系统交互时才起�
 == 更多信息
 
 * https://doc.cuba-platform.cn/manual-{cuba_version}-chs/opening_screens.html#screenBuilders[Screen Builders 参考文档]
-* https://www.cuba-platform.com/guides/decouple-business-logic-with-app-events[指南：使用应用程序事件解耦应用程序逻辑]
+* https://www.cuba-platform.cn/guides/decouple-business-logic-with-app-events[指南：使用应用程序事件解耦应用程序逻辑]

@@ -599,4 +599,4 @@ CUBA 应用程序中的图片渲染和自定义元素组件可以显著地提高
 
 * https://doc.cuba-platform.cn/manual-{cuba_version}-chs/gui_FileUploadField.html[CUBA 文档: 文件上传UI组件]
 * https://doc.cuba-platform.cn/manual-{cuba_version}-chs/gui_Image.html[CUBA 文档：Image UI 组件]
-* https://www.cuba-platform.com/guides/create-business-logic-in-cuba[CUBA 指南：在 CUBA 应用程序中创建业务逻辑]
+* https://www.cuba-platform.cn/guides/create-business-logic-in-cuba[CUBA 指南：在 CUBA 应用程序中创建业务逻辑]

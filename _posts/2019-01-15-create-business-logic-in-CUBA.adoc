@@ -217,7 +217,7 @@ public class PetEdit extends StandardEditor<Pet> {
 == 中间件服务
 
 
-关于业务逻辑存放位置的下一个方法是 https://doc.cuba-platform.com/manual-{cuba_version}/services.html [中间件服务]。这种服务是业务逻辑最合适的地方，因为它达到了以下目标：
+关于业务逻辑存放位置的下一个方法是 https://doc.cuba-platform.cn/manual-{cuba_version}-chs/services.html [中间件服务]。这种服务是业务逻辑最合适的地方，因为它达到了以下目标：
 
 * 业务逻辑将适用于所有类型的客户端，包括Polymer UI。
 

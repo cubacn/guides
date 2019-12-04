@@ -43,12 +43,12 @@ include::includes/petclinic_introduction.adoc[]
 
 以编程方式使用数据库是很常见。在基于CUBA的应用程序中，由于可以以声明的方式对UI进行数据绑定，所以编程式数据访问不会像其它框架那么多，但仍有很多情况我们必须在业务逻辑代码中读写数据库。
 
-CUBA 提供的主要数据交互点是 https://doc.cuba-platform.com/manual-{cuba_version}/dataManager.html[DataManager] API。这个API允许 CUBA 应用程序开发人员通过常规的实体抽象层来加载和存储数据库中的数据。
+CUBA 提供的主要数据交互点是 https://doc.cuba-platform.cn/manual-{cuba_version}-chs/dataManager.html[DataManager] API。这个API允许 CUBA 应用程序开发人员通过常规的实体抽象层来加载和存储数据库中的数据。
 
 
 DataManager 是在 Java Persistence API (JPA) 之上的一个抽象。它隐藏掉了一些在日常操作不需要的细节。
 
-同时它添加了 JPA 中缺少的一些功能。 这些功能主要是 https://doc.cuba-platform.com/manual-{cuba_version}/views.html[视图概念]以及应用程序的 https://doc.cuba-platform.com/manual-{cuba_version}/security_subsystem.html[安全限制]。有关 JPA 和 DataManager 之间差异的详细信息，请参阅文档： https://doc.cuba-platform.com/manual-{cuba_version}/dm_vs_em.html[DataManager vs. EntityManager] 。
+同时它添加了 JPA 中缺少的一些功能。 这些功能主要是 https://doc.cuba-platform.cn/manual-{cuba_version}-chs/views.html[视图概念]以及应用程序的 https://doc.cuba-platform.cn/manual-{cuba_version}-chs/security_subsystem.html[安全限制]。有关 JPA 和 DataManager 之间差异的详细信息，请参阅文档： https://doc.cuba-platform.cn/manual-{cuba_version}-chs/dm_vs_em.html[DataManager vs. EntityManager] 。
 
 
 == 使用 Datamanager 加载数据
@@ -220,5 +220,5 @@ DataManager API是一种CUBA抽象，允许应用程序开发人员完成常见�
 
 === 扩展资料
 
-* https://doc.cuba-platform.com/manual-{cuba_version}/dataManager.html[DataManager 参考文档]
+* https://doc.cuba-platform.cn/manual-{cuba_version}-chs/dataManager.html[DataManager 参考文档]
 * https://www.cuba-platform.com/webinars/working-data[使用数据(Webinar)]

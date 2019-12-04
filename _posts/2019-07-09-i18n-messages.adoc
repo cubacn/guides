@@ -112,7 +112,7 @@ image::i18n-messages/cuba-studio-resource-bundle-screen.png[align="center"]
 由于资源包编辑器使用了两边对应的布局，右边显示各种语言的翻译，创建翻译的操作比较方便。在左边显示出所有消息键名，如果某些消息缺少特定的翻译，键名会高亮显示，这样可以很容易地发现它们。
 ====
 
- 关于本地化消息存储结构的详细信息请参考文档：https://doc.cuba-platform.com/manual-{cuba_version}/localization.html[本地化] 。
+ 关于本地化消息存储结构的详细信息请参考文档：https://doc.cuba-platform.cn/manual-{cuba_version}-chs/localization.html[本地化] 。
 
 
 == 在应用程序中注册可用的语言
@@ -355,5 +355,5 @@ CUBA 支持开箱即用的应用程序本地化以支持。它提供了一个机
 
 == 更多信息
 
-* https://doc.cuba-platform.com/manual-{cuba_version}/messages.html[CUBA docs: Messages Interface]
-* https://doc.cuba-platform.com/manual-{cuba_version}/localization.html[CUBA docs: Localization]
+* https://doc.cuba-platform.cn/manual-{cuba_version}-chs/messages.html[CUBA docs: Messages Interface]
+* https://doc.cuba-platform.cn/manual-{cuba_version}-chs/localization.html[CUBA docs: Localization]

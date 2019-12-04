@@ -23,7 +23,7 @@ permalink: decouple-business-logic-with-app-events
 
 本指南对 https://github.com/cuba-platform/cuba-petclinic[CUBA 宠物医院]示例进行了改进，以演示应用程序事件的各种用例。特别是我们会涉及到以下用例：
 
-* 在创建一个新的到访记录(Visit)时生成一个房间序列号(a room keycode )
+* 在创建一个新的到访记录(Visit)时生成一个房间码(a room keycode )
 * 为预订的到访发送房间码(room keycode)
 * 一旦一次诊疗活动被标记为完成就开始支付流程
 * 诊疗活动完成后刷新到访记录列表
@@ -437,4 +437,4 @@ CUBA 中的应用程序事件允许在应用程序中定义松散耦合的业务
 
 === 更多资料
 
-* https://doc.cuba-platform.com/manual-{cuba_version}/events.html[事件参考文档]
+* https://doc.cuba-platform.cn/manual-{cuba_version}-chs/events.html[事件参考文档]

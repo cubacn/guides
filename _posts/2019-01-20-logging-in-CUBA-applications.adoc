@@ -166,7 +166,7 @@ Logback (也包括其它日志库)允许定义处理日志信息的方式、日�
 === 在部署时: logback.xml 配置文件
 
 
-`logback.xml`  文件是调整 logback 配置的主要地方。在 CUBA 应用程序中这个文件位于 `deploy/tomcat/conf/logback.xml` （使用了https://doc.cuba-platform.com/manual-{cuba_version}/fast_deployment.html[快速部署] 方式）。它看起来是这样：
+`logback.xml`  文件是调整 logback 配置的主要地方。在 CUBA 应用程序中这个文件位于 `deploy/tomcat/conf/logback.xml` （使用了https://doc.cuba-platform.cn/manual-{cuba_version}-chs/fast_deployment.html[快速部署] 方式）。它看起来是这样：
 
 .logback.xml
 [source,xml]
@@ -222,7 +222,7 @@ CUBA 默认配置多个日志输出通道(appender)。 一个输出通道描述�
 
 在上面的示例中，`com.haulmont.sample.petclinic` 包的日志级别设置为了 `DEBUG` 。这意味着它将输出所有 `DEBUG` 级别以上的日志。根据日志级别的定义 ， 这个包将记录 `INFO` 、 `WARN` 、 `ERROR` 和 `FATAL` 级别的日志。`TRACE` 级别的日志将不会显示。
 
-根据应用程序的部署方式，有几个有关 logback.xml 文件放置位置的选项。 除了上面提到的 https://doc.cuba-platform.com/manual-{cuba_version}/fast_deployment.html[快速部署]之外， `logback.xml` 可以放在应用程序 内部，或者将其配置为应用程序外部的指定路径。 详细信息请参阅<<更多信息>>。
+根据应用程序的部署方式，有几个有关 logback.xml 文件放置位置的选项。 除了上面提到的 https://doc.cuba-platform.cn/manual-{cuba_version}-chs/fast_deployment.html[快速部署]之外， `logback.xml` 可以放在应用程序 内部，或者将其配置为应用程序外部的指定路径。 详细信息请参阅<<更多信息>>。
 
 
 

@@ -55,7 +55,7 @@ CUBA 提供了一组综合性的功能用来在应用程序中处理文件。 �
 
 文件存储子系统从物理文件中分离出文件元数据，文件元数据存储在关系数据库，物理文件存储在文件系统。
 
-关于这个主题的详细信息可参考文档：https://doc.cuba-platform.com/manual-{cuba_version}/file_storage.html[文件存储] 。
+关于这个主题的详细信息可参考文档：https://doc.cuba-platform.cn/manual-{cuba_version}-chs/file_storage.html[文件存储] 。
 
 由于图片是一种比较特别的文件类型，所以对于图片文件的处理加入了一些特殊的额外行为，比如在浏览器中预览图片。
 
@@ -120,7 +120,7 @@ CUBA  有一个内置的用于处理 `FileDescriptor`  实例的 UI 组件。这
 
 <1> FileUploadField 组件将上传的文件绑定到 `vetDc`  数据容器的  `image`  属性
 
-有几个控制上传组件行为的选项，可在这里找到： https://doc.cuba-platform.com/manual-{cuba_version}/gui_FileUploadField.html[参考文档] 。在当前案例中，使用默认行为就可以了。它允许用户上传、下载、移除和重新上传文件，并且直接将文件附加到编辑界面上的 Vet 实例。
+有几个控制上传组件行为的选项，可在这里找到： https://doc.cuba-platform.cn/manual-{cuba_version}-chs/gui_FileUploadField.html[参考文档] 。在当前案例中，使用默认行为就可以了。它允许用户上传、下载、移除和重新上传文件，并且直接将文件附加到编辑界面上的 Vet 实例。
 
 最终用户界面看下来是这样：
 
@@ -142,7 +142,7 @@ image::working-with-images/vet-entity-file-descriptor-reference-ui.png[align="ce
 * 来自任务 URL 的图片
 * 来自 `FileDescriptor` 实例
 
-参考 https://doc.cuba-platform.com/manual-{cuba_version}/gui_Image.html[CUBA 文档： 图片 UI 组件] 了解更多关于各种选项的信息。
+参考 https://doc.cuba-platform.cn/manual-{cuba_version}-chs/gui_Image.html[CUBA 文档： 图片 UI 组件] 了解更多关于各种选项的信息。
 
 
 在这种情况下，由于 `Vet` 通过 `image` 属性实例持有 `FileDescriptor` 的引用，所以可以直接渲染文件引用的图片。
@@ -597,6 +597,6 @@ CUBA 应用程序中的图片渲染和自定义元素组件可以显著地提高
 
 == 扩展信息
 
-* https://doc.cuba-platform.com/manual-{cuba_version}/gui_FileUploadField.html[CUBA 文档: 文件上传UI组件]
-* https://doc.cuba-platform.com/manual-{cuba_version}/gui_Image.html[CUBA 文档：Image UI 组件]
+* https://doc.cuba-platform.cn/manual-{cuba_version}-chs/gui_FileUploadField.html[CUBA 文档: 文件上传UI组件]
+* https://doc.cuba-platform.cn/manual-{cuba_version}-chs/gui_Image.html[CUBA 文档：Image UI 组件]
 * https://www.cuba-platform.com/guides/create-business-logic-in-cuba[CUBA 指南：在 CUBA 应用程序中创建业务逻辑]

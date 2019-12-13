@@ -12,13 +12,17 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@CubaPlatform">
     <meta name="twitter:creator" content="@CubaPlatform">
+    <meta name="twitter:title" content="{{page.title}}">
+    <meta name="twitter:description" content="{{page.excerpt}}">
+    <meta name="twitter:image" content="{{page.url-first-image}}">
+
     <meta property="og:type" content="article">
     <meta property="og:title" content="{{page.title}}">
     <meta property="og:description" content="{{page.excerpt}}">
     <meta property="og:url" content="https://www.cuba-platform.com{{site.baseurl}}/{{page.permalink}}">
     <meta property="og:image" content="{{page.url-first-image}}">
 
-    <link rel="shortcut icon" href="{{ '/images/favicon.png' | prepend: site.baseurl }}" type="image/png" />
+    <link rel="shortcut icon" href="{{'/images/favicon.png' | prepend: site.baseurl }}" type="image/png" />
     <link rel="stylesheet" href="{{ '/css/foundation.css' | prepend: site.baseurl }}">
     <link rel="stylesheet" href="{{ '/css/font-awesome.css' | prepend: site.baseurl }}">
     <link rel="stylesheet" href="{{ '/css/coderay.css' | prepend: site.baseurl }}">
@@ -32,6 +36,7 @@
     <link rel="stylesheet" href="{{ '/css/guides.css' | prepend: site.baseurl }}">
     <script src="{{ '/js/jquery_v2.1.min.js' | prepend: site.baseurl }}"></script>
     <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}" />
+    {% include counter.html %}
 </head>
 <body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-962 node-type-blog-post i18n-en">
 
@@ -80,10 +85,10 @@
                         <div class="guide-panel cuba-version">支持的版本: CUBA {{ page.compatible_cuba_versions }}; Java {{ page.compatible_java_versions }}</div>
 
                     </section>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <!-- Footer -->
@@ -100,72 +105,72 @@
 <script src="{{ '/js/extra2.js' | prepend: site.baseurl }}"></script>
 <script src="{{ '/js/cuba-new.js' | prepend: site.baseurl }}"></script>
 <script>
-    (function ($) {
-        $(document).foundation();
-        var doc = document.documentElement;
-        doc.setAttribute('data-useragent', navigator.userAgent)
+(function ($) {
+  $(document).foundation();
+  var doc = document.documentElement;
+  doc.setAttribute('data-useragent', navigator.userAgent)
 
-        /* Issue #24 */
-        $(".blog .content img").each(function() {
-            var imgMarkup = $(this)[0].outerHTML;
-            console.log(imgMarkup);
-            $(this).replaceWith('<div class="img-center">' + imgMarkup + '</div>');
-        });
+  /* Issue #24 */
+  $(".blog .content img").each(function() {
+    var imgMarkup = $(this)[0].outerHTML;
+    console.log(imgMarkup);
+    $(this).replaceWith('<div class="img-center">' + imgMarkup + '</div>');
+  });
 
-    })(jQuery);
+})(jQuery);
 
-    // Cache selectors
-    var lastId,
-        topMenu = $(".sectlevel1"),
-        topMenuHeight = topMenu.outerHeight()+1,
+// Cache selectors
+var lastId,
+    topMenu = $(".sectlevel1"),
+    topMenuHeight = topMenu.outerHeight()+1,
 
-        // All list items
-        menuItems = topMenu.find("a"),
-        // Anchors corresponding to menu items
-        scrollItems = menuItems.map(function(){
-            var item = $($(this).attr("href"));
-            if (item.length) { return item; }
-        });
-    console.log(topMenuHeight );
-    menuItems.click(function(e){
-        var href = $(this).attr("href"),
-            offsetTop = href === "#" ? 0 : $(href).offset().top - 85;
-        $('html, body').stop().animate({
-            scrollTop: offsetTop
-        }, 850);
-        e.preventDefault();
-        window.location =  href;
+    // All list items
+    menuItems = topMenu.find("a"),
+    // Anchors corresponding to menu items
+    scrollItems = menuItems.map(function(){
+        var item = $($(this).attr("href"));
+        if (item.length) { return item; }
     });
+console.log(topMenuHeight );
+menuItems.click(function(e){
+    var href = $(this).attr("href"),
+        offsetTop = href === "#" ? 0 : $(href).offset().top - 85;
+    $('html, body').stop().animate({
+        scrollTop: offsetTop
+    }, 850);
+    e.preventDefault();
+    window.location =  href;
+});
 
-    $( document ).ready(function() {
-        const hash = location.hash.replace('#','');
-        if(hash !== ''){
-            $('html, body').stop().animate({ scrollTop: $('a[href=#' + hash + ']').offset().top - 85}, 850);
-        }
+$( document ).ready(function() {
+    const hash = location.hash.replace('#','');
+    if(hash !== ''){
+        $('html, body').stop().animate({ scrollTop: $('a[href=#' + hash + ']').offset().top - 85}, 850);
+    }
+});
+
+// Bind to scroll
+$(window).scroll(function(){
+    // Get container scroll position
+    var fromTop = $(this).scrollTop()+topMenuHeight;
+
+    // Get id of current scroll item
+    var cur = scrollItems.map(function(){
+        if ($(this).offset().top < fromTop)
+            return this;
     });
+    // Get the id of the current element
+    cur = cur[cur.length-1];
+    var id = cur && cur.length ? cur[0].id : "";
 
-    // Bind to scroll
-    $(window).scroll(function(){
-        // Get container scroll position
-        var fromTop = $(this).scrollTop()+topMenuHeight;
-
-        // Get id of current scroll item
-        var cur = scrollItems.map(function(){
-            if ($(this).offset().top < fromTop)
-                return this;
-        });
-        // Get the id of the current element
-        cur = cur[cur.length-1];
-        var id = cur && cur.length ? cur[0].id : "";
-
-        if (lastId !== id) {
-            lastId = id;
-            // Set/remove active class
-            menuItems
-                .parent().removeClass("active")
-                .end().filter("[href=#"+id+"]").parent().addClass("active");
-        }
-    });
+    if (lastId !== id) {
+        lastId = id;
+        // Set/remove active class
+        menuItems
+            .parent().removeClass("active")
+            .end().filter("[href=#"+id+"]").parent().addClass("active");
+    }
+});
 
 </script>
 </body>

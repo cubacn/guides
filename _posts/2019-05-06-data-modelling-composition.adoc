@@ -14,7 +14,7 @@ permalink: data-modelling-composition
 :page-root: ../../../
 :project_id: cuba-petclinic-data-model-composition
 :page-url-first-image: https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-data-model-composition/master/img/login-screen.png
-:java_version: 1.8
+:java_version: 8
 :cuba_version: 7.0
 
 本指南将覆盖实体间的组合关系。将会演示关联(Association) 和组合(Composition)之间的不同。会使用示例探究两种不同的组合：一对多组合和一对一组合。

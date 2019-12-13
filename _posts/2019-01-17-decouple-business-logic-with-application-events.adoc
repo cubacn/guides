@@ -14,7 +14,7 @@ permalink: decouple-business-logic-with-app-events
 :page-url-first-image: https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-intro-to-application-events/master/img/login-screen.png
 :page-root: ../../../
 :project_id: cuba-petclinic-intro-to-application-events
-:java_version: 1.8
+:java_version: 8
 :cuba_version: 7.0
 
 在 CUBA 7 中，事件是响应应用程序的各种更改的主要机制。 同时，事件也是应用程序中用于将业务逻辑之间相互进行解耦的一种常见模式。 本指南概述了如何在CUBA应用程序中使用事件以及它们带来的益处。

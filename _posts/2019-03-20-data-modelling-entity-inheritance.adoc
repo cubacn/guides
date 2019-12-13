@@ -14,7 +14,7 @@ permalink: data-modelling-entity-inheritance
 :page-root: ../../../
 :project_id: cuba-petclinic-data-model-entity-inheritance
 :page-url-first-image: https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-data-model-entity-inheritance/master/img/login-screen.png
-:java_version: 1.8
+:java_version: 8
 :cuba_version: 7.0
 
 本指南演示了在 CUBA 应用程序中如何使用实体继承。
@@ -264,7 +264,7 @@ TIP: 当继承类型使用了 `SINGLE_TABLE` 时，子类的属性上不能有 `
 
 为了通过 UI 创建一个特定的 `CatVisit` 实例 ，这里使用了前面描述的模式。为了实现在猫的就诊（Visit）编辑器中过滤 `Visit.pet` 属性， 对 `lookupPickerField` 组件做了一些细微的调整。
 
-.cat-edit.xml
+.cat-visit-edit.xml
 [source, xml]
 ----
 <data>

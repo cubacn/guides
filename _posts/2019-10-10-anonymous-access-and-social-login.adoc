@@ -4,12 +4,12 @@ compatible_java_versions: 8+
 project_id: cuba-petclinic-social-login
 permalink: anonymous-access-and-social-login
 ---
-= Anonymous Access & Social Login
+= 匿名访问 & 社交登录
 :showtitle:
 :sectlinks:
 :sectanchors:
-:page-navtitle: Anonymous Access & Social Login
-:page-excerpt: In this guide the anonymous access feature and social login implementation are explained
+:page-navtitle: 匿名访问 & 社交登录
+:page-excerpt: 本指南将介绍匿名访问和社交登录功能的实现方法
 :page-icone: images/anonymous-access-and-social-login/guide_icone.svg
 :page-root: ../../../
 :project_id: cuba-petclinic-social-login
@@ -17,21 +17,22 @@ permalink: anonymous-access-and-social-login
 :java_version: 8
 :cuba_version: 7.1
 
-Applications such as online stores provide users the ability to view a list of available products, read their description, or compare with each other without logging in. But in order to make a purchase, users usually have to register, and using a social network account is the most convenient way to do it.
+像在线商店类的应用程序一般允许用户在不登录的情况下浏览产品列表、查看产品信息或者对产品进行比较。但是用户如果要购买产品，那就必须注册，使用社交账户注册会给用户带来很大的方便性。
 
-== What Will Be Built
 
-This guide enhances the CUBA Petclinic example to demonstrate how to enable application public access and allow users to register via social services.
+== 将要构建什么
 
-In particular, the following topics will be covered:
+本指南对 CUBA 宠物商店示例进行了增强，借此演示如何使应用程序可以公开访问，并且允许用户使用社交服务注册用户。
 
-* Anonymous access
-* Custom Login Dialog
+特别是会涉及到以下主题：
+
+* 匿名访问
+* 自定义登录对话框
 * OAuth Web Flow
-* Social Login
-* Auto-registration
+* 社交登录
+* 自动注册
 
-=== Final Application
+=== 最终应用程序
 
 ++++
 <a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-social-login/master/img/cuba-petclinic-overview.gif">
@@ -43,17 +44,17 @@ include::includes/guide_requirements.adoc[]
 
 include::includes/petclinic_introduction.adoc[]
 
-== Public Access
+== 公开访问
 
-Oftentimes CRM-like applications have info or features that should be available for both authenticated and anonymous users - products, services, etc. This scenario is also relevant for dashboards, contacts or support pages. In this guide we will provide an ability to view the list of veterinarians working in the clinic and pets that can be brought for treatment without logging in to the application, i.e. working in app anonymously.
+一般情况下 CRM 类的应用程序会有一些信息或者功能对于已登录或匿名用户都应该可以访问，比如产品、服务等。 这些场景一般与仪表板、通讯录或支持页有关。在本指南中我们将提供查看诊所中兽医列表的功能和查看可带来就诊的宠物列表的功能， 并且不需要登录应用程序。也就是说应用程序以匿名的方式运行。
 
-Since version 7.1 CUBA provides more flexible approach to create publicly available screens that can be easily managed with a built-in security subsystem. We will use it to provide access for Anonymous users.
+从 7.1 开始， CUBA 提供了更灵活的方式去创建公开界面，并且这些公开界面也受内建安全子系统的管理。我们将使用它为匿名用户提供访问权限。
 
-Let’s begin.
+开始吧，
 
-=== Setting up Anonymous Access
+=== 配置匿名访问
 
-The first thing that should be done is enabling anonymous access via application properties:
+第一件事是通过应用程序属性启用匿名访问支持：
 
 .web-app.properties
 [source,properties]
@@ -61,11 +62,11 @@ The first thing that should be done is enabling anonymous access via application
 cuba.web.allowAnonymousAccess = true
 ----
 
-When this setting is on and the current user session is not authenticated (i.e. not logged in), the application will check permissions of the anonymous user to this screen instead of redirecting to the login screen.
+启用了这个设置后，如果当前用户会话没有经过认证（即没有登录），应用程序将检测匿名用户对当前界面的访问权限，而不是重定向到登录界面。
 
-=== Initial Screen
+=== 初始界面
 
-The next step is to configure the screen that will be opened by default:
+下一步是配置要默认打开的界面：
 
 .web-app.properties
 [source,properties]
@@ -73,31 +74,33 @@ The next step is to configure the screen that will be opened by default:
 cuba.web.initialScreenId = main
 ----
 
-And now we have the first result:
+现在我们得到第一个结果：
 
 image::anonymous-access-and-social-login/initial-screen.png[align="center"]
 
-The main screen with an empty side menu is opened. But it’s not very interesting to see a blank page - let’s set up permissions for anonymous users.
+主界面有侧边菜单， 但是是空的。但是只显示空的界面没有任何意义，我们应该给匿名用户设置权限。
 
-=== Anonymous Permissions
+=== 匿名权限
 
-Click the Login button in the side menu to proceed to login screen and enter the system as an administrator. Open “Role” browser and edit “Anonymous” role.
 
-Permit all required menu items and screens:
+点击侧边菜单的登录按钮，以管理员身份登录系统。打开"角色"浏览界面，编辑 “Anonymous” 角色。
+
+
+允许访问所有必要的菜单项和界面：
 
 image::anonymous-access-and-social-login/screen-permissions.png[align="center"]
 
-And give permissions to read corresponding entities:
+赋予读取相应实体的权限：
 
 image::anonymous-access-and-social-login/entity-permissions.png[align="center"]
 
-And restart the app. Now anonymous users can view the list of veterinarians:
+重启应用程序。现在用户匿名用户可以看到兽医列表了。
 
 image::anonymous-access-and-social-login/pemitted-screens.png[align="center"]
 
-=== Screen Routes
+=== 界面路由
 
-CUBA Navigation feature also supports anonymous access, so let’s register routes for our screens to be able to open screens directly. It can be done with `@Route` annotation:
+CUBA 导航功能也支持匿名访问，所以可以给我们的界面注册路由， 这样匿名用户就可以直接打开指定的界面。可以使用 `@Route` 注解实现路由。
 
 .VetBrowse.java
 [source,java]
@@ -111,12 +114,13 @@ public class VetBrowse extends StandardLookup<Vet> {
 }
 ----
 
-Add routes for other screens in the same way:
+以相同的方式给其它界面添加路由：
 
 * `@Route("pet-types")` for `PetTypeBrowse`
 * `@Route("specs")` for `SpecialtyBrowse`
 
-Restart the app and try to open the Vets screen using the following link:
+
+重启应用程序并且尝试使用以下链接打开兽医(Vets)界面：
 
 ++++
 <a href="http://localhost:8080/petclinic/#main/vets">http://localhost:8080/petclinic/#main/vets</a>
@@ -124,17 +128,21 @@ Restart the app and try to open the Vets screen using the following link:
 
 image::anonymous-access-and-social-login/screen-routes.png[align="center"]
 
-Now users can view the list of veterinarians, bookmark available pages or share links with friends without logging in to the application. Other public pages also can be navigated as usual, but if a user tries to open not permitted screens they will be redirected to the login screen.
 
-== Login Dialog
+现在用户可以查看兽医列表、可以页面添加到书签或者与好友分享链接，这些都不需要登录 。其它的公开页面也可以导航，但是如果用户尝试打开一个没有授权的界面，系统会重定向到登录界面。
 
-Default login process in CUBA application requires redirecting to a separate screen. In this section, we’ll demonstrate how to implement login using a modal dialog. Later we will place social networks buttons on this dialog.
+== 登录对话框
 
-=== Extended Main Screen
+CUBA 中的默认登录处理要求重定向到另外一个界面。在本节，我们将演示如何使用模式对话框登录。接着我们会把社交网络按钮放到这个对话框上。
 
-Let’s begin with extending the default Main Screen. Open “New Screen” dialog in CUBA Studio and choose a template named “Main screen with side menu”. You may notice that the screen layout has a new component - `UserActionsButton`. It combines “log in” action for anonymous users and allows logged in users to open the "Settings" screen or to log out.
 
-The `UserActionsButton` component has a few extension points to override the default behavior for login and logout actions. It allows us to define our custom logic to open the dialog - add custom login handler via `@Install` annotation:
+
+=== 扩展主界面
+
+我们从扩展默认的主界面开始。在 Sutdio 中打开 “New Screen” 对话框，选择名称为 “Main screen with side menu” 的模板。你可以注意到这个界面布局有一个新的组件 - `UserActionsButton` 。这个组件会为匿名用户显示 “log in” 操作，同时允许已登录用户打开 "Settings" 界面或者登出系统。
+
+
+ `UserActionsButton` 组件有几个扩展点，利用这些扩展点可以覆盖登录或登出的默认行为。它允许我们自定义逻辑来打开对话框，使用  `@Install` 注解来添加登录处理器：
 
 
 .ExtMainScreen.java
@@ -151,9 +159,9 @@ public class ExtMainScreen extends MainScreen {
 }
 ----
 
-=== Login Dialog
+=== 登录对话框
 
-The new login dialog will be a simplified version of the default login screen, so start with creating a new blank screen. Make `LoginDialog` extend `LoginScreen` to re-use login process logic:
+新的登录对话框是默认登录界面的简化版，所以我们从创建一个空界面开始。使 `LoginDialog` 扩展 `LoginScreen` 以重用登录处理逻辑。
 
 .LoginDialog.java
 [source,java]
@@ -164,7 +172,7 @@ public class LoginDialog extends LoginScreen {
 }
 ----
 
-The dialog layout is just a login form copied from the default login screen:
+对话框布局只是一个登录表单，从默认登录界面拷贝过来。
 
 .login-dialog.xml
 [source,xml]
@@ -240,7 +248,8 @@ The dialog layout is just a login form copied from the default login screen:
 </window>
 ----
 
-Set the dialog width and add a login button click listener:
+
+设置对话框宽度并且添加登录按钮的 click 监听器：
 
 .LoginDialog.java
 [source,java]
@@ -262,7 +271,7 @@ public class LoginDialog extends LoginScreen {
 }
 ----
 
-The new login dialog should be available to all users regardless of their roles, so we’ll use the default permissions mechanism to enable it. Create `default-permission-values.xml` file in the root package of the `core` module with the following content:
+新的对话框应该对于所有用户都是可用的，不管用户是什么角色，所以我们将使用默认权限机制去启用它。在 core 模拟的根包下创建 `default-permission-values.xml` 文件，文件内容如下：
 
 .default-permission-values.xml
 [source,xml]
@@ -274,7 +283,7 @@ The new login dialog should be available to all users regardless of their roles,
 </default-permission-values>
 ----
 
-And append this config to default permissions in `app.properties` file:
+在 `app.properties` 文件中将这个配置文件到默认权限配置：
 
 .app.properties
 [source,properties]
@@ -282,7 +291,8 @@ And append this config to default permissions in `app.properties` file:
 cuba.defaultPermissionValuesConfig = +com/haulmont/sample/petclinic/default-permission-values.xml
 ----
 
-Now we can open our new dialog in `UserActionsButton` login handler:
+
+现在我可以在 `UserActionsButton` 登录处理器中打开新的对话框：
 
 .ExtMainScreen.java
 [source,java]
@@ -302,44 +312,47 @@ public class ExtMainScreen extends MainScreen {
 }
 ----
 
-Restart the app and try to log in:
+重启应用程序并且尝试登录：
 
 image::anonymous-access-and-social-login/login-dialog-init.png[align="center"]
 
-== Social Login
+== 社交登录
 
-In most cases, applications and services require to register an account to use their features. Registration itself often involves filling out tedious forms and confirming an email address. One of the approaches that solves this problem and has become widespread is registration via social services like Google or Facebook.
+在部分情况下，应用程序都会要求注册一个账户以使用应用程序的功能。注册过程常常会要求填写一个冗长的表单，然后确认Email地址。 简化这个过程的一种广泛使用的方法是通过社交服务注册，比如Google或Facebook。
 
-The flow usually looks like this: the application redirects users to the social network login page, and after the users have allowed the requested access, they are redirected back to the application. Since application automatically registers a user account, it eliminates the need to fill in the fields and reduces the access time to the services it needs.
 
-This approach is called "OAuth Web Flow" and we will use it to integrate the social login into Petclinic application.
+流程一般是这样:应用程序将用户引起到社交网络登录页面，在用户允许了请求的权限后，会再次返回应用程序。由于应用程序自动注册新的账户，这样就不需要用户填写表单，也可以减少用户访问服务需要的时间。
+
+这种方式被称作 "OAuth Web Flow"，我们将使用这种方式集成社交登录到宠物诊所应用程序。
 
 === OAuth Web Flow
 
-One of the main tasks of the application is to automatically register a new account for user. It requires basic info like name, email, etc. Popular social network services like Facebook provide API endpoints to access this information. The common way to secure these endpoints is to use https://oauth.net[OAuth] tokens, or “access tokens”.
+应用程序的主要任务之一是为用户注册新账户。这里需要基础的信息，比如名称、email等。流行的社交网络服务，比如 Facebook ，会提供API端点去访问这些信息。保护这些API端点的常用方式是使用 https://oauth.net[OAuth] 令牌，或 “访问令牌”。
 
-First of all you should register your app in the social service:
+首先你需要在社交服务上注册你的应用程序：
 
 * https://cloud.google.com/cloud-console/[Google Cloud Console]
 * https://developers.facebook.com/apps[Facebook Apps]
 * https://github.com/settings/apps[GitHub Apps]
 
-You’ll get a so-called `client id` and `client secret` credentials that are used in the authentication process:
+你会得到称作 `client id` 和 `client secret` 的凭证，用于认证过程：
 
-1. The application sends a request with a client id to the auth service endpoint.
-2. The service returns a response with a temporary code.
-3. The application sends a request with a client id, client secret and the given code to the service.
-4. The service returns a response with an access token if all credentials are correct.
+
+1. 应用程序使用客户端id给认证服务端点发送一个请求。
+2. 服务返回一个临时码。
+3. 应用程序使用 client id、client secret和临时码给服务发送一个请求
+4. 如果所有凭证信息都正确，服务会在响应中带上访问令牌。
 
 image::anonymous-access-and-social-login/web-auth-flow.png[align="center"]
 
-=== Social Buttons
+=== 社交按钮
 
-One of the most common ways to integrate social login in the UI is buttons in the registration dialog, for example, Pinterest:
+在UI中集成社交登录的最常用途径之一是注册对话框上的按钮，如下图：
 
 image::anonymous-access-and-social-login/pinterest-login.png[align="center"]
 
-Add social buttons into the Login Dialog using `LinkButton` components placed into a horizontal box layout:
+
+将 `LinkButton` 组件放到一个水平 box 布局，这样可以将社交按钮到登录对话框
 
 .login-dialog.xml
 [source, xml]
@@ -360,7 +373,7 @@ Add social buttons into the Login Dialog using `LinkButton` components placed in
 </hbox>
 ----
 
-We’re using a custom style name to make buttons bigger. Open `hover-ext.scss` file and add the following rule:
+我们使用自定义样式名来使按钮更大一些。打开 `hover-ext.scss` 文件，添加以下规css 规则：
 
 .hover-ext.scss
 [source,text]
@@ -370,15 +383,15 @@ We’re using a custom style name to make buttons bigger. Open `hover-ext.scss` 
 }
 ----
 
-Result:
+效果：
 
 image::anonymous-access-and-social-login/social-buttons.png[align="center"]
 
-We'll use these buttons later to trigger social login process.
+后续我们将使用这些按钮触发社交登录过程。
 
-=== Preliminary Preparation
+=== 初步准备
 
-Not all services support `localhost` as application host. You can add a host alias to the operating system hosts file and use it in the application properties:
+不是所有的服务都支持 `localhost` 作为应用程序主机。你可以添加一个主机别名到操作系统hosts文件，并且在应用程序属性文件里使用这个别名：
 
 .app.properties
 [source, properties]
@@ -386,19 +399,21 @@ Not all services support `localhost` as application host. You can add a host ali
 cuba.webAppUrl = https://petclinic.com:8080/petclinic
 ----
 
-Moreover, the majority of social services require to use HTTPS - you can find a detailed guide on how to enable SSL for Tomcat container at https://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html.
+此外，多数社交服务要求使用 HTTPS -，你可以在 https://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html 找到关于如何为Tomcat容器启用 SSL的指南。
 
-=== Social Services Configuration
+=== 社交服务配置
 
-It’s assumed that the app is already registered in social services and the required credentials (`client id` and `client secret`) are available.
+假设应用已经在社交服务上注册，已经有了必要的凭据 (`client id` 和 `client secret`)。
 
 To store service credentials we’ll use the configuration interfaces mechanism. Let’s introduce the following configs:
+
+我们将使用配置接口机制来存储服务凭据。我们引入以下配置：
 
 * `GoogleConfig`
 * `FacebookConfig`
 * `GitHubConfig`
 
-Since a set of credentials is the same for all the services we can create a common interface `SocialServiceConfig`:
+由于所有的服务具有一组相同的凭据，所以我们创建一个通用接口 `SocialServiceConfig`:
 
 .SocialServiceConfig.java
 [source, java]
@@ -411,7 +426,7 @@ public interface SocialServiceConfig {
 }
 ----
 
-So, for example, `GoogleConfig` will be:
+这时，举例来说，`GoogleConfig` 将是:
 
 .GoogleConfig.java
 [source, java]
@@ -427,7 +442,7 @@ public interface GoogleConfig extends Config, SocialServiceConfig {
 }
 ----
 
-After getting the `client id` and `client secret` from a social service, write them down to `app.properties` and restart the application:
+从社交服务获取到 `client id` 和 `client secret` 之后，将他们定入  `app.properties` 文件并且重启应用程序。
 
 .app.properties
 [source, properties]
@@ -436,11 +451,12 @@ google.clientId = <APP_CLIENT_ID>
 google.clientSecret = <APP_CLIENT_SECRET>
 ----
 
-=== Getting an Auth Code
+=== 获取 Auth Code
 
-The first step of authentication is to get an auth code - a temporary code that will be exchanged for an access token. To get a code we should redirect a user to the service authentication endpoint and handle a response.
+认证的第一步是获取一个 Auth Code - 一个临时码，用于换取访问令牌。要获取一个临时码，我们应该将用户访问重定向到服务的认证端点，并且处理响应。
 
-Authentication process is almost the same for all social services, so we can write generic code. The main difference is connected with auth endpoint URLs, params, etc, so in the beginning, we introduce the following enum:
+
+所有社交服务的认证过程几乎都一样，所以我们可以写一段通用的代码。主要不同在于连接的端点URL、参数等。所以我们先引入下列枚举：
 
 .SocialService.java
 [source, java]
@@ -453,7 +469,7 @@ public enum SocialService {
 }
 ----
 
-Let’s create a service that will generate an address of authentication endpoint:
+我们创建一个服务， 用于生成一个认证端点地址：
 
 .SocialLoginService.java
 [source, java]
@@ -466,7 +482,7 @@ public interface SocialLoginService {
 }
 ----
 
-To form a login address we should combine the endpoint URL and the required parameters:
+要构造一个登录地址，我们应该组合端点 URL 和必要的参数：
 
 .SocialLoginServiceBean.java
 [source, java]
@@ -507,7 +523,8 @@ public class SocialLoginServiceBean implements SocialLoginService {
 }
 ----
 
-`SocialLoginHelper` is a utility class that contains auth URLs and generates parameters part:
+`SocialLoginHelper` 是一个工具类，包含认证 URL和生成参数部分：
+
 
 .SocialLoginHelper.java
 [source, java]
@@ -538,7 +555,7 @@ public final class SocialLoginHelper {
 }
 ----
 
-Add social button click listeners and redirect a user to a social service login page:
+添加社交按钮点击事件监听器，重定向用户请求到社交服务登录页面：
 
 .LoginDialog.java
 [source, java]
@@ -559,14 +576,15 @@ public class LoginDialog extends LoginScreen {
 }
 ----
 
-After logging in, the service will redirect us back and we should handle a response.
+登录后，服务会再次跳转回我们的应用，这时我们需要处理响应。
 
-=== Handling Social Service Response
+=== 处理社交服务响应
 
-To handle a response with the temporary code we will use Vaadin https://vaadin.com/docs/v8/framework/advanced/advanced-requesthandler.html[Request Handlers] mechanism -
-it allows us to add request callbacks using simple functional interface.
 
-Our callback handler will use `SocialLoginService` to fetch user data, so it should be a bean. Request handlers should be added to the current session before the request and removed from it in the end. It means that we can implement the handler as a prototype bean:
+要使用临时码处理社交服务响应，我们可以使用 Vaadin https://vaadin.com/docs/v8/framework/advanced/advanced-requesthandler.html[Request Handlers] 机制 - 它允许我们使用函数式接口处理请求回调。
+
+
+我们的回调处理器将使用  `SocialLoginService` 获取用户数据，所以它应该是一个 Bean。 请求处理器应该在请求前添加到当前 session， 并且在请求结束后移除。这表示我们可以将处理器实现为  prototype Bean:
 
 .SocialServiceCallbackHandler.java
 [source, java]
@@ -594,13 +612,15 @@ public class SocialServiceCallbackHandler implements RequestHandler {
 }
 ----
 
-Let’s highlight the main responsibilities of the handler:
 
-* Extract auth code from response and fetch user data via `SocialLoginService`
-* Create `Credentials` instance based on user data
-* Trigger login process and redirect user back to the app
+我们强调一下这个处理器的主要职责：
 
-First, we use the `UIAccessor` instance to lock the UI until the login request is processed:
+* 从响应中提取 auth code，并且通过 `SocialLoginService` 获取用户数据
+* 基于用户数据创建 `Credentials` 实例
+* 触发登录过程并且重定向回应用
+
+
+首先，我们使用 `UIAccessor` 实例锁定UI，直到登录请求处理完成：
 
 .SocialServiceCallbackHandler.java
 [source, java]
@@ -643,7 +663,7 @@ public class SocialServiceCallbackHandler implements RequestHandler, Initializin
 }
 ----
 
-Get back to `LoginDialog` and use the callback handler:
+回到  `LoginDialog` 来使用回调处理器：
 
 .LoginDialog.java
 [source, java]
@@ -669,9 +689,9 @@ public class LoginDialog extends LoginScreen {
 }
 ----
 
-=== Exchanging an Auth Code for Access Token
+=== 使用 Auth Code 换取访问令牌
 
-When the auth code is available, we can use it to get an access token. Form a request with the required params depending on the social network service:
+当 auth code 可用时，我们可以使用它来获取访问令牌。 Form a request with the required params depending on the social network service:
 
 .SocialLoginServiceBean.java
 [source, java]

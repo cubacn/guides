@@ -142,7 +142,7 @@ CUBA 中的默认登录处理要求重定向到另外一个界面。在本节，
 我们从扩展默认的主界面开始。在 Sutdio 中打开 “New Screen” 对话框，选择名称为 “Main screen with side menu” 的模板。你可以注意到这个界面布局有一个新的组件 - `UserActionsButton` 。这个组件会为匿名用户显示 “log in” 操作，同时允许已登录用户打开 "Settings" 界面或者登出系统。
 
 
- `UserActionsButton` 组件有几个扩展点，利用这些扩展点可以覆盖登录或登出的默认行为。它允许我们自定义逻辑来打开对话框，使用  `@Install` 注解来添加登录处理器：
+`UserActionsButton` 组件有几个扩展点，利用这些扩展点可以覆盖登录或登出的默认行为。它允许我们自定义逻辑来打开对话框，使用  `@Install` 注解来添加登录处理器：
 
 
 .ExtMainScreen.java
@@ -1126,7 +1126,7 @@ public class SocialLoginProvider extends ExternalUserLoginProvider implements Lo
 
 === 用户注册
 
-创建一个新的 继承自`User` 的实体 `SocialUser`，并给它添加三个字段：
+创建一个新的 继承自 `User` 的实体 `SocialUser`，并给它添加三个字段：
 
 
 * `googleId`

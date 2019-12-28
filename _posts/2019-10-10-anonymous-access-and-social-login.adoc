@@ -339,8 +339,8 @@ image::anonymous-access-and-social-login/login-dialog-init.png[align="center"]
 
 
 1. 应用程序使用客户端id给认证服务端点发送一个请求。
-2. 服务返回一个临时码。
-3. 应用程序使用 client id、client secret和临时码给服务发送一个请求
+2. 服务返回一个授权码。
+3. 应用程序使用 client id、client secret和授权码给服务发送一个请求
 4. 如果所有凭证信息都正确，服务会在响应中带上访问令牌。
 
 image::anonymous-access-and-social-login/web-auth-flow.png[align="center"]
@@ -449,9 +449,9 @@ google.clientId = <APP_CLIENT_ID>
 google.clientSecret = <APP_CLIENT_SECRET>
 ----
 
-=== 获取 Auth Code
+=== 获取授权码 (Auth Code)
 
-认证的第一步是获取一个 Auth Code - 一个临时码，用于换取访问令牌。要获取一个临时码，我们应该将用户访问重定向到服务的认证端点，并且处理响应。
+认证的第一步是获取一个获取授权码(Auth Code) - 是一个临时的代码，用于换取访问令牌。要获取一个授权码，我们应该将用户访问重定向到服务的认证端点，并且处理响应。
 
 
 所有社交服务的认证过程几乎都一样，所以我们可以写一段通用的代码。主要不同在于连接的端点URL、参数等。所以我们先引入下列枚举：
@@ -579,7 +579,7 @@ public class LoginDialog extends LoginScreen {
 === 处理社交服务响应
 
 
-要使用临时码处理社交服务响应，我们可以使用 Vaadin https://vaadin.com/docs/v8/framework/advanced/advanced-requesthandler.html[Request Handlers] 机制 - 它允许我们使用函数式接口处理请求回调。
+要使用授权码处理社交服务响应，我们可以使用 Vaadin https://vaadin.com/docs/v8/framework/advanced/advanced-requesthandler.html[Request Handlers] 机制 - 它允许我们使用函数式接口处理请求回调。
 
 
 我们的回调处理器将使用  `SocialLoginService` 获取用户数据，所以它应该是一个 Bean。 请求处理器应该在请求前添加到当前 session， 并且在请求结束后移除。这表示我们可以将处理器实现为  prototype Bean:
@@ -613,7 +613,7 @@ public class SocialServiceCallbackHandler implements RequestHandler {
 
 我们强调一下这个处理器的主要职责：
 
-* 从响应中提取 auth code，并且通过 `SocialLoginService` 获取用户数据
+* 从响应中提取授权码(auth code)，并且通过 `SocialLoginService` 获取用户数据
 * 基于用户数据创建 `Credentials` 实例
 * 触发登录过程并且重定向回应用
 
@@ -687,9 +687,9 @@ public class LoginDialog extends LoginScreen {
 }
 ----
 
-=== 使用 Auth Code 换取访问令牌
+=== 使用授权码(Auth Code) 换取访问令牌
 
-当 auth code 可用时，我们可以使用它来获取访问令牌。 构造一个请求，请求参数需要根据社交网络服务来确定:
+当授权码可用时，我们可以使用它来获取访问令牌。 构造一个请求，请求参数需要根据社交网络服务来确定:
 
 .SocialLoginServiceBean.java
 [source, java]
@@ -1062,8 +1062,7 @@ public class SocialServiceCallbackHandler implements RequestHandler, Initializin
 
 === 登录提供者
 
-
- `Connection` 组件使用所有可用的 `LoginProviders` 去获取一个新的认证信息。 `LoginProviders` 机制允许你使用有序的 Spring Bean 对不同类型的凭据执行用户认证。我们将使用这个扩展点来创建一个社交登录提供者：
+`Connection` 组件使用所有可用的 `LoginProviders` 去获取一个新的认证信息。 `LoginProviders` 机制允许你使用有序的 Spring Bean 对不同类型的凭据执行用户认证。我们将使用这个扩展点来创建一个社交登录提供者：
 
 .SocialLoginProvider.java
 [source, java]
@@ -1294,7 +1293,7 @@ public class SocialLoginProvider extends ExternalUserLoginProvider implements Lo
 == 总结
 
 
-匿名访问允许给应用程序提供可公开访问的功能，比如仪表板、新闻或者反馈页。但是有也一些功能只有在登录后可用， 社交登录是一个很方便的登录方式，可以避免用户填写繁琐的注册表单。在本指南中我们已经但要如何在 CUBA 应用程序中使用这种方式。
+匿名访问允许给应用程序提供可公开访问的功能，比如仪表板、新闻或者反馈页。但是有也一些功能只有在登录后可用， 社交登录是一个很方便的登录方式，可以避免用户填写繁琐的注册表单。在本指南中我们介绍了如何在 CUBA 应用程序中使用这种方式。
 
 == 扩展信息
 

@@ -405,9 +405,7 @@ cuba.webAppUrl = https://petclinic.com:8080/petclinic
 
 假设应用已经在社交服务上注册，已经有了必要的凭据 (`client id` 和 `client secret`)。
 
-To store service credentials we’ll use the configuration interfaces mechanism. Let’s introduce the following configs:
-
-我们将使用配置接口机制来存储服务凭据。我们引入以下配置：
+我们使用配置接口机制来存储服务凭据。我们引入以下配置：
 
 * `GoogleConfig`
 * `FacebookConfig`
@@ -691,7 +689,7 @@ public class LoginDialog extends LoginScreen {
 
 === 使用 Auth Code 换取访问令牌
 
-当 auth code 可用时，我们可以使用它来获取访问令牌。 Form a request with the required params depending on the social network service:
+当 auth code 可用时，我们可以使用它来获取访问令牌。 构造一个请求，请求参数需要根据社交网络服务来确定:
 
 .SocialLoginServiceBean.java
 [source, java]
@@ -751,8 +749,8 @@ public class SocialLoginServiceBean implements SocialLoginService {
 }
 ----
 
-Then use https://search.maven.org/artifact/org.apache.httpcomponents/httpclient/4.5.10/jar[Apache HttpClient]
-library to perform request:
+然后使用 https://search.maven.org/artifact/org.apache.httpcomponents/httpclient/4.5.10/jar[Apache HttpClient] 库来执行请求：
+
 
 .SocialLoginServiceBean.java
 [source, java]
@@ -783,8 +781,7 @@ public class SocialLoginServiceBean implements SocialLoginService {
 }
 ----
 
-And parse access token using
-https://search.maven.org/artifact/com.google.code.gson/gson/2.8.5/jar[Google Gson]:
+使用 https://search.maven.org/artifact/com.google.code.gson/gson/2.8.5/jar[Google Gson] 解析访问令牌：
 
 .SocialLoginServiceBean.java
 [source, java]
@@ -803,7 +800,7 @@ public class SocialLoginServiceBean implements SocialLoginService {
 }
 ----
 
-All in one:
+整体调用:
 
 .SocialLoginServiceBean.java
 [source, java]
@@ -821,13 +818,13 @@ public class SocialLoginServiceBean implements SocialLoginService {
 }
 ----
 
-== Auto-Registration
+== 自动注册
 
-The final part of the guide describes how to use the access token to get profile info, register a new account and login the user.
+这部分会描述如何使用访问令牌去获取用户的个人资料。现在注册一个新账户并登录。
 
-=== Fetching User Data
+=== 获取用户数据
 
-Oftentimes social network service API endpoints enable you to specify a set of fields to fetch. Let’s add one more setting to our config interfaces:
+一般情况下社交网络服务 API 端点会允许你指定要获取的字段。我们给配置接口添加一个配置：
 
 .SocialServiceConfig.java
 [source, java]
@@ -840,7 +837,7 @@ public interface SocialServiceConfig {
 }
 ----
 
-For example, `GoogleConfig`:
+比如， `GoogleConfig`:
 
 .GoogleConfig.java
 [source, java]
@@ -860,7 +857,7 @@ public interface GoogleConfig extends Config, SocialServiceConfig {
 }
 ----
 
-Create a simple immutable POJO to store the loaded profile info:
+创建一个简单的只读 POJO 来存储加载到用户资料信息：
 
 .SocialUserData.java
 [source, java]
@@ -900,7 +897,11 @@ class SocialUserData implements Serializable {
 }
 ----
 
-Let’s add a new `SocialLoginService` method that will accept the auth code and return corresponding user data.
+给 `SocialLoginService` 接口添加一个新的方法，接受授权码并返回相应的用户数据。
+
+
+
+
 
 .SocialLoginService.java
 [source, java]
@@ -913,13 +914,13 @@ public interface SocialLoginService {
 }
 ----
 
-The method will do the following:
+在这个方法中进行以下处理：
 
-* Fetch an access token using the auth code
-* Fetch user data using access token
-* Parse a response to create `SocialUserData` instance
+* 使用授权码(auth code) 获取访问令牌
+* 使用访问令牌获取用户数据
+* 解析响应并创建一个 `SocialUserData` 接口
 
-Since exchanging the auth code for the access token is already described, we can proceed to fetching user data:
+我们已经介绍过如何使用授权码(auth code)换取访问令牌，现在我们可以获取用户数据：
 
 .SocialLoginServiceBean.java
 [source, java]
@@ -962,7 +963,8 @@ public class SocialLoginServiceBean implements SocialLoginService {
 }
 ----
 
-Parse user data from the response into `SocialUserData` POJO:
+从响应中解析用户数据为`SocialUserData` POJO：
+
 
 .SocialLoginServiceBean.java
 [source, java]
@@ -997,18 +999,19 @@ public class SocialLoginServiceBean implements SocialLoginService {
 }
 ----
 
-=== Social Credentials
+=== 社交凭据
 
-Now we can log in user via CUBA Security Subsystem. The general workflow is the following:
+现在我们可以通过 CUBA 安全系统登录，一般的流程是这样的：
 
-1. `Credentials` instance is passed into `Connection`
-2. `Connection` iterates over available `LoginProviders` and checks whether it supports the passed credentials
-3. When suitable provider is found `Connection` delegates invocation to it
 
-To support custom login you should create your own `Credentials` and `LoginProvider`
-that supports such type of credentials.
+1. 将 `Credentials` 实例传递给 `Connection`
+2. `Connection`  遍历可用的 `LoginProviders` ，检查是否支持传递的凭据
+3.  如果找到了合适的提供者(Provider)，`Connection` 会将登录调用委托给这个提供者
 
-Create a new class `SocialCredentials` in the `web` module:
+要支持自定义登录，你应该创建自己的 `Credentials` 和相应的 `LoginProvider`。
+
+
+在 `web` 模块创建一个类 `SocialCredentials`：
 
 .SocialCredentials.java
 [source, java]
@@ -1035,7 +1038,8 @@ public class SocialCredentials extends AbstractClientCredentials {
 }
 ----
 
-Let’s go back to `SocialServiceCallbackHandler` to finish its implementation:
+现在回到 `SocialServiceCallbackHandler` 来完成它的实现：
+
 
 .SocialServiceCallbackHandler.java
 [source, java]
@@ -1056,9 +1060,10 @@ public class SocialServiceCallbackHandler implements RequestHandler, Initializin
 }
 ----
 
-=== Login Provider
+=== 登录提供者
 
-The `Connection` component uses all available `LoginProviders` to get new authentication info. `LoginProviders` mechanism enables you to use ordered Spring beans to authenticate a user for different types of credentials. We will use this extension point to create a social login provider:
+
+ `Connection` 组件使用所有可用的 `LoginProviders` 去获取一个新的认证信息。 `LoginProviders` 机制允许你使用有序的 Spring Bean 对不同类型的凭据执行用户认证。我们将使用这个扩展点来创建一个社交登录提供者：
 
 .SocialLoginProvider.java
 [source, java]
@@ -1086,7 +1091,7 @@ public class SocialLoginProvider implements LoginProvider {
 }
 ----
 
-We will extend the built-in `ExternalUserLoginProvider` to re-use its logic. Create a new `ExternalUserCredentials` based on the available info and pass it to the super method:
+我们扩展内置的 `ExternalUserLoginProvider` 来重用它的逻辑。基于可用信息创建一个新的 `ExternalUserCredentials` 实例，并将其传递给父类方法：
 
 .SocialLoginProvider.java
 [source, java]
@@ -1118,17 +1123,19 @@ public class SocialLoginProvider extends ExternalUserLoginProvider implements Lo
 }
 ----
 
-To form credentials we have to find an existing or register a new user.
+要构造一个凭据，我们必须找到一个已有的或新建一个用户.
 
-=== User Registration
+=== 用户注册
 
-Create a new entity `SocialUser` extending `User` and add three fields to it:
+创建一个新的 继承自`User` 的实体 `SocialUser`，并给它添加三个字段：
+
 
 * `googleId`
 * `facebookId`
 * `githubId`
 
-These fields are required to bind the social network profile with the system user to be able to find it later. We should also assign a default group to a new user - create a new configuration interface:
+这些字段用于在社交网络资料和用户之间建立关联，方便后续查找。我们应该给用户设置一个默认组 - 创建一个新的配置接口：
+
 
 .SocialRegistrationConfig.java
 [source, java]
@@ -1143,7 +1150,8 @@ public interface SocialRegistrationConfig extends Config {
 }
 ----
 
-Create a new service `SocialRegistrationService` intended to find existing or register a new user:
+
+创建一个新的服务 `SocialRegistrationService` ，用于查找可注册新的用户：
 
 .SocialRegistrationService.java
 [source, java]
@@ -1159,7 +1167,7 @@ public interface SocialRegistrationService {
 }
 ----
 
-Its implementation is quite straightforward:
+这个接口的实现非常简单：
 
 .SocialRegistrationServiceBean.java
 [source, java]
@@ -1253,7 +1261,7 @@ public class SocialRegistrationServiceBean implements SocialRegistrationService 
 }
 ----
 
-Get back to `SocialLoginProvider` and use `SocialRegistrationService` to get the user:
+返回到  `SocialLoginProvider` ，并且使用  `SocialRegistrationService`  来获取用户：
 
 .SocialLoginProvider
 [source, java]
@@ -1283,10 +1291,11 @@ public class SocialLoginProvider extends ExternalUserLoginProvider implements Lo
 }
 ----
 
-== Summary
+== 总结
 
-Anonymous access allows you to provide some publicly available functionality in your application, like dashboards, news, or feedback page. But in case when some features are available only for logged in users, social login is a convenient way to avoid filling a registration form. In this guide we’ve described how to support these use cases for CUBA based applications.
 
-== Further Information
+匿名访问允许给应用程序提供可公开访问的功能，比如仪表板、新闻或者反馈页。但是有也一些功能只有在登录后可用， 社交登录是一个很方便的登录方式，可以避免用户填写繁琐的注册表单。在本指南中我们已经但要如何在 CUBA 应用程序中使用这种方式。
 
-* https://doc.cuba-platform.com/manual-7.1/gui_anonymous_access.html[Anonymous Access reference documentation]
+== 扩展信息
+
+* https://doc.cuba-platform.cn/manual-7.1-chs/gui_anonymous_access.html[匿名访问参考文档]

@@ -147,8 +147,7 @@ image::data-model-composition/composition-one-to-one.png[align="center"]
 
 * https://github.com/cuba-guides/{project_id}/blob/master/modules/global/src/com/haulmont/sample/petclinic/entity/employee/EmployeeRecord.java[EmployeeRecord.java] - `EmployeeRecord` 实体。
 
-On a UI level it is possible to deal with One-to-One composition in two different ways. Normally, One-to-One compositions are displayed as a single entry in the form of the master entity. The details of the child entity are entered in a dedicated edit screen for this entity. But it is also possible to enter values for both entites in the same edit screen. Below both options will be shown.
-在 UI 层面，有两种可能的方式处理一对一组合。通常，一对一组合在主实体的表单中显示为一个单一入口。通过这个入口打开一个独立的界面来编辑子实体的详细信息。但是也可以将主、子实体的信息显示在一个界面，并在一个界面中进行编辑。
+在 UI 层面，有两种可能的方式处理一对一组合。通常，一对一组合在主实体的表单中显示为一个单一入口。通过这个入口打开一个独立的界面来编辑子实体的详细信息。但是也可以将主、子实体的信息显示在一个界面，并在一个界面中进行编辑。下面会展示这两种方式。
 
 
 === 使用详细界面的的一对一关系

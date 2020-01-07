@@ -4,12 +4,12 @@ compatible_java_versions: 8+
 project_id: cuba-petclinic-intro-to-reports
 permalink: introduction-to-reporting
 ---
-= Introduction to Reporting and Document generation
+= 介绍报表和文档生成
 :showtitle:
 :sectlinks:
 :sectanchors:
-:page-navtitle: Introduction to Report and Document generation
-:page-excerpt: In this guide the Reporting add-on will be introduced and different ways to interact with it through the UI and programmatically will be shown
+:page-navtitle: 介绍报表和文档生成
+:page-excerpt: 本指南将介绍报表扩展，同时会展示使用报表扩展的各种方式，包括通过界面和以编程的方式使用
 :page-root: ../../../
 :project_id: cuba-petclinic-intro-to-reports
 :page-url-first-image: https://www.cuba-platform.com/guides/images/intro-to-reports/excel-document-template-example.png
@@ -17,13 +17,13 @@ permalink: introduction-to-reporting
 :cuba_version: 7.0
 :page-icone: images/intro-to-reports/guide_icone.svg
 
-CUBA applications can be enhanced to have a comprehensive report / document generation capability directly embedded into the application. The CUBA add-on `Reporting` supports various file formats like `DOCX`, `XLSX`, `PDF`, `HTML` for templating as well as output file formats. Furthermore, it contains management screens and provides APIs to interact with the report / document generation process programmatically.
+有时需要对 CUBA 应用程序进行增强，使其具备内置的报表、文档生成功能。 CUBA `报表` 扩展支持多种文件格式的模板，包括  `DOCX` 、 `XLSX` 、 `PDF` 和  `HTML`，同时也可以输出这些格式的文件。此外，这个扩展也包含管理界面，并且提供了以编程方式进行报表/文档处理的API。
 
-In this guide the `Reporting` add-on will be introduced and different ways to interact with it through the UI and programmatically will be shown.
+本指南中，会展示使用报表扩展的各种方式，包括通过界面和以编程的方式使用。
 
-== What Will be Built
+==  将要构建什么
 
-This guide enhances the https://github.com/cuba-platform/cuba-petclinic[CUBA Petclinic] example to show how reporting capabilities can be embedded into the application:
+本指南对 https://github.com/cuba-platform/cuba-petclinic[CUBA 宠物诊所] 示例进行了增强，以演示可内嵌到 CUBA 应用程序的报表功能：
 
 * a `patient-record` word document containing all relevant information (master data, visit data) for a given pet can be downloaded through the details screen of the pet.
 * a `recent-visits` report can be downloaded from the visit browse screen. The report contains visits of the last month, exported as an excel sheet with information about the visit, the referenced pet and its owner.

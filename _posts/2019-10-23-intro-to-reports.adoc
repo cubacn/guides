@@ -57,7 +57,7 @@ include::includes/petclinic_introduction.adoc[]
 如上所述，应用程序中有很多处理文档/报表生成的用例。这里有一个示例列表：
 
 * 创建一个交易额排行前10的客户的Excel表
-* 就应用程序中的订单生成PDF格式的发票
+* 给应用程序中的订单生成PDF格式的发票
 * 创建CSV格式的支持数据文件，用于与支付系统和BI系统交互
 * 显示一个畅销产品的列表，并且按产品类别分组
 * 创建一个 HTML 格式的最新产品报价文件，用于上传并发布到网站上
@@ -66,7 +66,7 @@ include::includes/petclinic_introduction.adoc[]
 
 == 模板 + 数据  = 文档
 
-整个方案的基本结构是基于文档模板和模板数据,模板和数据会被进行合并处理并生成最终的文档/报表。
+报表扩展的基本技术结构是基于文档模板和模板数据,模板和数据会被进行合并处理并生成最终的文档/报表。
 
 === 文档模板
 
@@ -82,7 +82,7 @@ image::intro-to-reports/excel-document-template-example.png[align="center", link
 
 这个模板中包含了常规的文本和表格中不同列的占位符，比如 `${pet.name}` 和 `${pet.identificationNumber}` 。
 
-此外，也可以以期望的方式定义样式和调整模板。 对于 Word 和 Excel 文档，程序本身提供的格式选项都可应用到模板文件。对于 HTML 文档，所有 CSS 功能都可以应用到目标文档。
+此外，也可以以期望的方式定义样式和调整模板。 对于 Word 和 Excel 文档，程序本身提供的格式化选项都可应用到模板文件。对于 HTML 文档，所有 CSS 功能都可以应用到目标文档。
 
 TIP: 模板文件的格式不一定要与输出文件的格式一致。比如可以使用WORD模板生成PDF文件。
 
@@ -126,7 +126,7 @@ image::intro-to-reports/report-entity-wizard-3.png[align="center", link="images/
 
 这种方式更适合于业务用户，因为它隐藏了复杂的技术细节，比如可以使用简单的配置界面来定义查询。对于简单的报表，报表向导可作为业务人员直接创建报表的主要 UI。
 
-生成了带有合适的点位符的文档模板后，业务人员可以对这个生成的模板进行输出格式方面的调整。能熟练使用 Word 或Excel 的业务人员对这些格式应该很熟悉。 这种方式为非技术人员制作报表提供了可能性。
+生成了带有合适的占位符的文档模板后，业务人员可以对这个生成的模板进行输出格式方面的调整。能熟练使用 Word 或Excel 的业务人员对这些格式应该很熟悉。 这种方式为非技术人员制作报表提供了可能性。
 
 当然，对于技术精湛的开发人员，也可以使用这种方式来创建报表，或者基于自动生成的报表再进行手动调整，这会大大提高报表开发效率。
 
@@ -142,7 +142,7 @@ image::intro-to-reports/report-entity-wizard-3.png[align="center", link="images/
 
 image::intro-to-reports/report-entity-configuration-external-parameters.png[align="center", link="images/intro-to-reports/report-entity-configuration-external-parameters.png"]
 
-有两种方式为外部参数输入值。第一种方式是以通用UI中的表单的方式来收集参数。在使用通用报表执行UI调用报表时会出现这种参数输入界面。下图是这种UI的一个示例：
+有两种方式为外部参数输入值。第一种方式是使用用于收集参数的通用表单。在使用通用报表执行UI调用报表时会出现这种参数输入界面。下图是这种UI的一个示例：
 
 image::intro-to-reports/report-external-parameters-dynamic-ui.png[align="center", link="images/intro-to-reports/report-external-parameters-dynamic-ui.png"]
 
@@ -164,11 +164,9 @@ image::intro-to-reports/report-external-parameters-dynamic-ui.png[align="center"
 
 这个报表中要选择的宠物直接主数据与 `recent-visits` 报表相似，包括宠物(Pet)实体及关联的主人（Owner）实体的基础信息。
 
-为了显示宠物实体相关的诊疗记录，需要创建另外一个数据带区。这可以在报表向导中完成。
+为了显示宠物实体相关的诊疗记录，需要创建另外一个数据带区。这个操作可以在报表向导中完成。
 
-In the second step after initially defining the direct attributes of the entity, it is possible to create additional "regions" in the report. Those regions are basically translated to a particular data bands that are generated out of those selections.
-
-
+在定义了实体的直接属性后的第二步，就可以为报表创建额外的“区域（regions）”。这些区域会被转换成特定的数据带区（Data band）。
 
 
 
@@ -244,13 +242,11 @@ More information on the configuration can be found in the official Reporting doc
 
 === 从宠物详情界面运行报表
 
-有两个决定如何以编程的方式从界面上运行报表的因素。
+有两种方式可以使用编程的方式从界面上运行报表。
 
-
-首先，报表本身的配置决定它可以从哪些界面被调用。另外就是控制器中的声明性代码,在代码中定义要打印的报表，报表扩展将确定在当前上下文中可用的报表。
+这里介绍第一种。首先报表本身的配置决定它可以从哪些界面被调用，剩下的工作就是在控制器中仅仅声明一下要打印报表，报表扩展将确定在当前上下文中可用的报表。
 
 报表本身的对应的配置部分是 “Roles and Screens ”。在这部分可以配置一个允许使用当前报表的界面列表。
-
 
 
 image::intro-to-reports/report-configuration-roles-and-screens.png[align="center", link="images/intro-to-reports/report-configuration-roles-and-screens.png"]
@@ -312,9 +308,6 @@ public class PetEdit extends StandardEditor<Pet> {
 * Report Name （报表名称）: `Vists by Period`
 * Report Type （报表类型）: `Report for list of entities, selected by query`
 
-
-The next step is to define the query. The report Wizard allows users to set the query by defining conditions through the UI.
-
 下一步是定义查询。报表向导允许用户通过界面以定义条件的方式设置查询。
 
 在这个报表中应该查询最近一个月的就诊记录。但是报表扩展中没有“相对日期”的概念。因此，这段逻辑必须在调用报表的外部代码中实现。
@@ -350,15 +343,10 @@ image::intro-to-reports/visit-by-period-date-range-creteria.png[align="center", 
 
 在 `recent-visits` 报表用例中，没有给用户暴露设置参数的通用 UI 。而是通过调用 API 以编程的方式传递参数。
 
-In the `patient-record` report, the report screen connection was configured in the report configuration. ????
-在 `patient-record` 报表中，报表界面的关联是在报表配置中进行的。
+在 `patient-record` 报表中，报表与界面的关联是在报表配置中进行的。
 
-
-There is an alternative approach on how to trigger report execution, which will be leveraged in this example.
-
-有一个运行报表的可选方式，这个示例中会使用它。
-
-在这个示例中，会以编程的方式选择报表实例（通过 `system code` 属性）然后直接传递给报表 API，以此来执行报表并下载文档，
+之前讲过有两种运行报表的方式，这个示例中将演示第二种方式。
+在这个示例中，会以编程的方式选择报表实例（通过 `system code` 属性）然后直接传递给报表 API，以此来执行报表并下载文档。
 
 执行 `recent-visits` 报表的主要步骤：
 
@@ -441,7 +429,7 @@ public class VisitBrowse extends StandardLookup<Visit> {
 
 报表可以通过通用用户界面直接运行，也可以通过代码以编程的方式调用。可以给报表定义外部参数，外部参数需要传递给报表。有了参数，报表可以配置地更通用以适应多种用例。
 
-本指南中创建了两个报表。第一个报表使用了PDF生成，用于创建宠物病历。这个报表使用了界面来声明性地配置报表可以在哪些界面中使用。????
+本指南中创建了两个报表。第一个报表使用了PDF生成，用于创建宠物病历。这个报表使用了界面来声明性地配置报表可以在哪些界面中使用。
 
 第二个报表生成了一个包含最近一个月就诊记录的Excel工作表。在这个示例中使用了外部参数支持动态地指定报表数据的日期范围。
 

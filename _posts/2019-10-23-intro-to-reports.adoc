@@ -409,10 +409,9 @@ public class VisitBrowse extends StandardLookup<Visit> {
 
 这个报表中的外部参数传递中主要的部分是对最近一个月的定义：
 
-`TimeRange visitDateTimeRange = MonthYearValue.fromDate(today()).minusMonths(1);`.
+ `TimeRange visitDateTimeRange = MonthYearValue.fromDate(today()).minusMonths(1);`
 
- `TimeRange` 类是这个示例程序中的一个自定义类，提供了定义一个日期范围 (可以是年月范围和季度范围)的 API ，也包含了获取范围值的方法。
-
+这里的 `TimeRange`  类是这个示例程序中的一个自定义类，提供了定义一个日期范围 (可以是年月范围和季度范围)的 API ，也包含了获取范围值的方法。
 
 定义了参数值后，可以将参数值传递给 `reportGuiManager.printReport` ，它可以接收一个字典类型的参数。
 

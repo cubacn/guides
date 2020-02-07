@@ -25,11 +25,11 @@ permalink: introduction-to-reporting
 
 本指南对 https://github.com/cuba-platform/cuba-petclinic[CUBA 宠物诊所] 示例进行了增强，以演示可内嵌到 CUBA 应用程序的报表功能：
 
-* a `patient-record` word document containing all relevant information (master data, visit data) for a given pet can be downloaded through the details screen of the pet.
-* a `recent-visits` report can be downloaded from the visit browse screen. The report contains visits of the last month, exported as an excel sheet with information about the visit, the referenced pet and its owner.
+* `病历` 以 Word 文档的格式提供，可以包含指定宠物的相关信息（主体数据、就诊数据）， 可以从宠物详情界面下载病历。
+* 可以从应该就诊历史浏览界面下载 `最近就诊` 报表。这个报表包含了最近一个月的就诊记录，可以导出为包含就诊记录、相关宠物及其主人信息的Excel工作表。
 
 
-=== Final Application
+=== 最终应用程序
 
 ++++
 <a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-intro-to-reports/master/img/adjustments-cuba-petclinic-overview.gif"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-intro-to-reports/master/img/login-screen.png"/></a>
@@ -40,74 +40,83 @@ include::includes/guide_requirements.adoc[]
 
 include::includes/petclinic_introduction.adoc[]
 
-== Overview
+== 简介
 
-Oftentimes when working with business applications there is a high demand for document generation, that will take some information from the source application and bring it in the form of a commonly known format, so that it can be shared with other parties like customers, partners or other systems.
+在使用业务应用程序时文档生成是必不可少的功能，我们常常需要从系统中提取一些数据，然后将其导出为通用的格式，这样就可以与其它参与者（比如客户、 合作伙伴或其它系统）共享这些数据。
 
-These documents might either have the form of human consumable content like a PDF file or are  used more as input data for further use like a CSV / Excel file or a Word document.
+生成的文档可能是人类可读的格式，比如 PDF，也可能是作为其它系统的输入数据的格式，比如 CSV/Excel 格式或 Word 文档。
 
-CUBA, being targeted towards the needs of business applications, in particular has dedicated support for this kind of use cases through the `Reporting` add-on.
+针对业务应用程序的这种需求，CUBA 通过 `报表` 扩展提供了专门的支持。
 
-It has the ability to define formatted document templates and declare the data that should be used for the document. This definition is done in a declarative way, that does not require writing any code in order to generate reports / documents. It is possible for developers as well as administrators and business users with mid-level technical skills.
+使用报表扩展可以定义格式化的文档模板，同时为模板定义要使用的数据。定义以声明式的方式完成，不需要写任何代码就可以生成报表/文档。开发人员、管理员和具有中级技能的业务用户都可以使用报表扩展。
 
-=== Example Use Cases
 
-As it was mentioned above, there are lots of use cases that deal with generating documents / reports out of a source application. Here's a list of examples:
 
-* create an excel sheet of the TOP 10 customers with the highest total turnovers
-* generate an invoice for an order stored in the application in PDF format
-* create payment data file as a CSV file for file exchange between the payment system and the BI system
-* show a list of best sold products aggregated by category as an application screen
-* create an HTML file of the latest sales offers in order to upload & publish this file on a website
+=== 示例用例
 
-All of those requirements are the part of what the `Reporting` add-on is capable of handling. In the next section the overall concepts are covered and afterwards use cases are implemented.
+如上所述，应用程序中有很多处理文档/报表生成的用例。这里有一个示例列表：
 
-== Templates + Data = Document
+* 创建一个交易额排行前10的客户的Excel表
+* 就应用程序中的订单生成PDF格式的发票
+* 创建CSV格式的支持数据文件，用于与支付系统和BI系统交互
+* 显示一个畅销产品的列表，并且按产品类别分组
+* 创建一个 HTML 格式的最新产品报价文件，用于上传并发布到网站上
 
-The underpinning of this whole solution is based on on the combination of document templates with data, that are merged in order to create the resulting document / report.
+上述所有的需求 `报表` 扩展都可以处理。在下一节中将介绍整体概念，并实现一些用例。
 
-=== The Document Template
-The document template is a file that acts as a blueprint for how the target file should look like. It contains placeholders as particular text snippets, that the `Reporting` add-on can pick up and put the data into the document.
+== 模板 + 数据  = 文档
 
-Those placeholders can be inserted as regular text into the template file, but they need a special character to indicate that this text is a placeholder. A placeholder is defined in the following way: `${NAME_OF_PLACEHOLDER}`
+整个方案的基本结构是基于文档模板和模板数据,模板和数据会被进行合并处理并生成最终的文档/报表。
 
-An example of a document template can be seen below. This example is an excel sheet, that is used later in this guide:
+=== 文档模板
+
+文档模板是一个文件，它用来定义目标文件的外观。模板中会包含占位符和特定的文档片断，`报表` 扩展可以获取模板文件并为其注入数据。
+
+
+占位符可以像普通文档一样插入模板文件，这时就需要一个特定字符去标识出哪些文本是占位符。`报表` 扩展中定义占位符的方式：
+`${NAME_OF_PLACEHOLDER}`
+
+下面是一个文档模板示例。这个示例是一个 Excel工作表，本指南在后面会用到这个工作表。
 
 image::intro-to-reports/excel-document-template-example.png[align="center", link="images/intro-to-reports/excel-document-template-example.png"]
 
-The template contains regular text as well as the placeholders for different columns in a table like `${pet.name}` or `${pet.identificationNumber}`.
+这个模板中包含了常规的文本和表格中不同列的占位符，比如 `${pet.name}` 和 `${pet.identificationNumber}` 。
 
-Furthermore, it is possible to style and adjust the document template in any desired ways. For Word and Excel documents all the possible formatting options of those programs are able to be applied to the template file. For HTML documents the complete capabilities of CSS can be used for applying styles to the target document.
+此外，也可以以期望的方式定义样式和调整模板。 对于 Word 和 Excel 文档，程序本身提供的格式选项都可应用到模板文件。对于 HTML 文档，所有 CSS 功能都可以应用到目标文档。
 
-TIP: The template file format is not necessarily the file format of the output document. It is possible to e.g. have a Word based document template that will generate a PDF file when merged with the data.
+TIP: 模板文件的格式不一定要与输出文件的格式一致。比如可以使用WORD模板生成PDF文件。
 
-=== Data Sources
 
-The data that is used for the report can be of various sources. Within a CUBA application fetching the data directly from the entity layer of the application is the most convenient variant. However, the `Reporting` add-on is not bound to this particular data source. It can use one of the following data sources:
 
-* CUBA Entities / JPQL
+=== 数据源
+
+报表使用的数据可以有多少来源。 在 CUBA 应用程序中直接从实体层获取数据是最便捷的方式。但是， `报表` 扩展不限定于特定的数据源。可以使用以下数据源：
+
+* CUBA 实体 / JPQL
 * SQL
 * Groovy
 * JSON
 
-These various sources provide a high degree of flexibility when it comes to fetch data and provide it to the template file. It is also possible to define multiple data sources and combine all the data in the template.
+多种数据源为给模板提供数据提供高度的灵活性。在一个模板中可以组合使用多种数据源。
 
-== Report Configuration
+== 报表配置
 
-Once the data sources are defined and connected through a concept called Bands to particular template placeholders, everything is setup to generate the output document. The add-on stores all this configuration in the `Report` entity which holds the configuration of the data sources together with the definition of the templates and further configuration information.
+定义了数据源后并且使数据源与特定模板占位符通过称作 `带区（band）` 的概念连接起来，这时输出文档需要的配置就完成了。`报表` 扩展将所有的配置存储在 `Report` 实体，其中包含了数据源配置、模板定义以及其它配置信息。
 
 image::intro-to-reports/report-entity-configuration-screen.png[align="center", link="images/intro-to-reports/report-entity-configuration-screen.png"]
 
-There are two main ways of creating those report records.
+创建报表（`Report`）记录有两种主要的方式。
 
-The first one is to create an instance manually and define the data sources together with the associated JPQL / SQL queries / groovy scripts.
 
-This is oftentimes needed when more complex reports should be defined which requires skills to create SQL / JPQL statements or even programming abilities through groovy scripts. This option
-is mostly for administrators that have a deep technical understanding of the inner processes of the application. It furthermore requires knowledge about its domain model and an understanding of the technical concepts of the Reporting add-on like report bands, report parameters etc.
+第一种方式是手动创建一个实例并且定义数据源及相关的 JPQL / SQL 查询  / groovy 脚本。
 
-=== The Report Wizard
+这种方式常常在需要定义非常复杂报表时用到，用这种方式定义报表需要开发人员具有编写 SQL/JPQL 语句，甚至编写 Groovy脚本的技能。所以这种方式适合于对应用程序的内部处理机制具有很深的理解的高级管理员。
+这种方式也需要开发人员具备相关的领域模型知识和报表扩展的相关的技术概念，包括报表带区、报表参数等。
 
-The second option is to use the report UI wizard that guides the user through the selection of various options. It includes the ability to define the conditions for entities to be selected for the report, the attributes that should be included. Furthermore, it generates a base template which already contains the selected attributes as placeholders.
+
+=== 报表向导
+
+第二个选项是使用可以视化的报表向导，向导可以指引用户选择各种选项。 报表向导中可以定义报表中要选择的实体的条件、要包含的属性等。另外它也可以根据选择的属性生成一个基本的模板，会自动为属性在模板中添加占位符。
 
 image::intro-to-reports/report-entity-wizard-1.png[align="center", link="images/intro-to-reports/report-entity-wizard-1.png"]
 
@@ -115,73 +124,76 @@ image::intro-to-reports/report-entity-wizard-2.png[align="center", link="images/
 
 image::intro-to-reports/report-entity-wizard-3.png[align="center", link="images/intro-to-reports/report-entity-wizard-3.png"]
 
-This variant is more targeted towards business users, since it hides away the technical details of e.g. the query definition behind a user-friendly configuration UI. For easier reports, this wizard can serve as the main UI for creating reports by business users directly.
+这种方式更适合于业务用户，因为它隐藏了复杂的技术细节，比如可以使用简单的配置界面来定义查询。对于简单的报表，报表向导可作为业务人员直接创建报表的主要 UI。
 
-With the feature of generating a document template that contains the correct placeholders of the selected attributes is allows business users to change only the formatting of the output document. This template formatting normally happens in the application that they are already familiar with like Word or Excel. The main difference is that this opens up possibilities for non-technical people to work with reports without the need of any developer interaction.
+生成了带有合适的点位符的文档模板后，业务人员可以对这个生成的模板进行输出格式方面的调整。能熟练使用 Word 或Excel 的业务人员对这些格式应该很熟悉。 这种方式为非技术人员制作报表提供了可能性。
 
-That being said, also, for tech-savvy people it is oftentimes the fastest way to create a report or at least a starting point for manual adjustments.
-
-One constraint for the report wizard is that it is tied to generating reports / documents based on the CUBA entity layer. Groovy / SQL based reports cannot _directly_ be created through the wizard. However, it is possible to use the wizard report as a first step and then adjust the resulting reports bands accordingly through the regular management screen.
+当然，对于技术精湛的开发人员，也可以使用这种方式来创建报表，或者基于自动生成的报表再进行手动调整，这会大大提高报表开发效率。
 
 
-=== External Parameters
+报表向导的一个限制是它只能生成基于CUBA实体层的报表/文档。不能 _直接_ 创建基于  Groovy / SQL 脚本的报表。但是可以使用向导先生成一个报表，然后使用常规的管理界面来调整报表带区。
 
-A Report configuration can declare external parameters that need to be provided by the person or application code that interacts with the report. Those parameters are mainly used for the data fetching parts. In the JPQL / SQL statements as well as the groovy based data bands, those parameters are passed in to dynamically inject the values into the query / the groovy script.
 
-The configuration of the external parameters in the Reports configuration screen looks like this:
+=== 外部参数
+
+可以给报表定义外部参数，这些外部参数可以由用户交互地方式设置，也可以由应用程序代码使用。这些参数常用于数据获取阶段。在 基于 JPQL/SQL 语句和 Groovy 脚本的数据带区中， 可以将参数值动态地注入查询语句或Groovy脚本。
+
+报表配置中外部参数配置界面看起来是这样：
 
 image::intro-to-reports/report-entity-configuration-external-parameters.png[align="center", link="images/intro-to-reports/report-entity-configuration-external-parameters.png"]
 
-When external parameters are defined, the values can be entered in two ways. The first way is to expose these parameters as a form in the generic UI. It will appear at the point when the report is executed through the generic Reports execution UI. An example of such a UI can be seen here:
+有两种方式为外部参数输入值。第一种方式是以通用UI中的表单的方式来收集参数。在使用通用报表执行UI调用报表时会出现这种参数输入界面。下图是这种UI的一个示例：
 
 image::intro-to-reports/report-external-parameters-dynamic-ui.png[align="center", link="images/intro-to-reports/report-external-parameters-dynamic-ui.png"]
 
 
-== Patient Record
+== 病历
+第一个要生成的报表是指定宠物的病历。这个报表上包含了宠物的基础信息及其诊疗信息。
 
-The first report that should be generated is a patient record for a given pet. It contains an overview of the pet's master data as well as visit data form that pet.
+这种情况下，文档模板应该是一个 Word 文档。但是，最终要输出PDF文件。
 
-In this case the document template will be a Word document. However, the target document will be a PDF file.
+这个报表具有以下以下默认设置：
 
-The report will have the following default settings:
-
-* Report Entity: `Pet (petclinic_Pet)`
-* Template Type: `DOCX`
-* Report Name: `Patient Record`
-* Report Type: `Report for single entity`
+* Report Entity（报表实体）: `Pet (petclinic_Pet)`
+* Template Type（模板类型）: `DOCX`
+* Report Name（报表名称）: `Patient Record`
+* Report Type （报表类型）: `Report for single entity`
 
 
-=== Defining the Attributes
+=== 定义属性
 
-The direct master data of the pet are similar to what has been selected in the `recent-visits` report, basically the data of the Pet entity as well as the associated Owner entity.
+这个报表中要选择的宠物直接主数据与 `recent-visits` 报表相似，包括宠物(Pet)实体及关联的主人（Owner）实体的基础信息。
 
-In order to display a list of associated visits of this Pet entity, another data band has to be created. This is possible during the initial Reporting wizard.
+为了显示宠物实体相关的诊疗记录，需要创建另外一个数据带区。这可以在报表向导中完成。
 
 In the second step after initially defining the direct attributes of the entity, it is possible to create additional "regions" in the report. Those regions are basically translated to a particular data bands that are generated out of those selections.
+
+
+
 
 
 image::intro-to-reports/report-entity-wizard-add-tabular-section.png[align="center", link="images/intro-to-reports/report-entity-wizard-add-tabular-section.png"]
 
 
-=== Configuring the Output document
+=== 配置输出文档
 
-The output document for this report contains one template defined initially through the report wizard. The corresponding section in the Report Configuration screen therefore contains one template entry.
+这个报表的输出文件包含了一个通过报表向导默认生成的模板。因此可以在报表配置界会有一个对应的模板条目。
 
-The output type is set to `PDF` while the template file is `DOCX`.
+模板文件是 `DOCX` 时，输出类型被设置为 `PDF`。
 
 
 image::intro-to-reports/report-configuration-default-template.png[align="center", link="images/intro-to-reports/report-configuration-default-template.png"]
 
-Additionally, it is possible to define the filename of the output document. This can either be a static filename or it can be programmatically configured.
+另外，也可定义输出文档的文件名。文件名可以是静态常量文件名，也可以是编程方式配置的动态文件名。
 
-In this case, the filename should look like this for the Pet with the name "Horsea": `Patient Record - Horsea.pdf`.
+在这里，对于名称为 "Horsea" 的宠物，文件名应该是: `Patient Record - Horsea.pdf` 。
 
-In order to achieve this, a pattern can be configured whicn in this case references to a particular band: `${Root.title}.pdf`
-
-`Root.title` refers to the `title` value of the `Root` data band. A groovy based data set will define the value for the title attribute like this:
+要实现这一点，可以配置文件名模板，在模板中引用特定带区：`${Root.title}.pdf`
 
 
-.Title data set in Root data band
+`Root.title` 指的是 `Root` 带区的 `title` 值。这里使用了 Groovy 脚本定义了一个数据集，其中包含了 title 属性值 ：
+
+. Root 数据带区中定义的数据集
 [source,groovy]
 ----
 def petName = params["entity"]["name"] // <1>
@@ -190,19 +202,21 @@ return [
     ["title" : "Patient Record - $petName"] // <2>
 ]
 ----
-<1> the params variable gives access to the different external parameters. `params["entity"]` refers to the selected pet instance.
-<2> a List of Maps has to be returned from this groovy script. Under the key `title` it will put the target filename
 
-The resulting usage of the groovy based data set looks like this:
+<1>  params 变量可以用来访问各种外部参数。`params["entity"]` 指向选择的宠物实例。
+<2>  这段Groovy 脚本返回了一个字典列表，目标文件名使用 `title` 键名存储在字典中
+
+基于 Groovy 脚本的数据集的最终用法如下所示：
 
 image::intro-to-reports/report-configuration-report-output-title.png[align="center", link="images/intro-to-reports/report-configuration-report-output-title.png"]
 
 
-=== LibreOffice for accurate Word to PDF conversion
+=== 使用 LibreOffice 将 Word 精确地转换为 PDF
 
-After configuring the output document to be PDF, adjustments need to be made in the configuration of the application. In order to increase the accuracy of the PDF output document, CUBA is able to leverage the conversion facilities of LibreOffice.
+要输出 PDF 文档，需要对应用程序配置进行一些调整。CUBA 利用了 LibreOffice 的转换功能来生成高质量的 PDF 文件。
 
-LibreOffice has an API that other programs can use to convert different file formats (especially PDF file generation). The `Reporting` add-on uses this API when LibreOffice is installed on the operating system and configured in the CUBA application properties.
+LibreOffice 提供了一个用于转换各种文件格式（特别是 PDF文件生成）的API供其它程序调用。 如果操作系统安装了 LibreOffice，并且在 CUBA 应用程序中进行了正确的配置， `报表` 扩展将使用这个 API来生成 PDF文件。
+
 
 .app.properties
 [source,properties]
@@ -219,25 +233,31 @@ reporting.openoffice.docx.useOfficeForDocumentConversion = true
 reporting.openoffice.path = /Applications/LibreOffice.app/Contents/MacOS
 ----
 
-The usage of LibreOffice has to be activated and additionally the path to the LibreOffice binary has to be configured to CUBA. Once this configuration is done, the CUBA application is able to render PDF files from `DOCX` and `XSLX` templates.
+首先需要启用 LibreOffice 的文档转换功能，另外需要配置 LibreOffice 的二进制文件路径。这些配置完成后，CUBA 就可以将  `DOCX` 和 `XSLX` 模板渲染为 PDF 文件。
 
 More information on the configuration can be found in the official Reporting docs: https://doc.cuba-platform.com/reporting-7.1/open_office.html[Appendix A: Installing and Configuring OpenOffice].
 
+在官方报表文档中可以找到更多关于配置的说明： https://doc.cuba-platform.cn/reporting-7.1-chs/open_office.html[Appendix A: 安装和配置 OpenOffice]。
 
 
-=== Running the Report from the Pet Detail Screen
 
-There are two variants on how to run a report programmatically from a screen.
 
-In this variant, the report configuration itself determines in which screens it should be "available". The remaining code in the controller just declares, that it wants to print a report and the Reporting add-on will then figure out which reports are possible in this context.
+=== 从宠物详情界面运行报表
 
-The corresponding configuration section in the Reporting is "Roles and Screens". Within this section a list of UI screens can be configured in which the report is available.
+有两个决定如何以编程的方式从界面上运行报表的因素。
+
+
+首先，报表本身的配置决定它可以从哪些界面被调用。另外就是控制器中的声明性代码,在代码中定义要打印的报表，报表扩展将确定在当前上下文中可用的报表。
+
+报表本身的对应的配置部分是 “Roles and Screens ”。在这部分可以配置一个允许使用当前报表的界面列表。
+
+
 
 image::intro-to-reports/report-configuration-roles-and-screens.png[align="center", link="images/intro-to-reports/report-configuration-roles-and-screens.png"]
 
-The screen `petclinic_Pet.edit` is added to the list of screens on the right side of the configuration interface.
+在配置界面右侧的列表中加入了界面： `petclinic_Pet.edit` 。
 
-In the target UI screen, the following code is added in order to trigger the report execution.
+在目标界面中加入下列代码用于调用报表:
 
 
 .pet-edit.xml
@@ -250,7 +270,7 @@ In the target UI screen, the following code is added in order to trigger the rep
             caption="msg://patientRecord"/> // <1>
 </hbox>
 ----
-<1> a new `patientRecordBtn` is placed next to the default save & close buttons
+<1> 在默认的 save & close 按钮旁边添加了一个id为 `patientRecordBtn` 按钮。
 
 .PetEdit.java
 [source,java]
@@ -272,70 +292,79 @@ public class PetEdit extends StandardEditor<Pet> {
 
 }
 ----
-<1> the action is configured at the init event of the edit screen
-<2> the `EditorPrintFormAction` from the `Reporting` add-on is used, which automatically searches for reports that are configured in this screen
+<1> 在界面的 init 事件中配置打印按钮的操作
 
-In case multiple reports are configured to be available, the user is prompted with a pop-up to select the correct report to run. In this case, there is only one report configured for this screen, which results in automatic execution of that report without any further required interaction with the user.
+<2> 使用了 `报表` 扩展中的 `EditorPrintFormAction` 操作，它会自动搜索在当前界面可用的报表。
 
 
-== Recent Visits Report
+如果有多个可用的报表，将会弹出一个用于选择报表的窗口，用户可以选择要运行的报表。如果只有一个可用的报表，那么系统会自动运行这个报表，不需要用户再去选择。
 
-The second example that should be generated by the application is the `recent-visits` report. It should be accessible as a download directly from the visit browse screen. The report contains visits of the last month, exported as an excel sheet with information about the visit, the referenced pet and its owner.
 
-In order to fulfill this requirement the first step is to create a report via the Report Wizard. The following main settings are set:
+== 最近就诊记录报表
 
-* Report Entity: `Visit (petclinic_Visit)`
-* Template Type: `XLSX`
-* Report Name: `Vists by Period`
-* Report Type: `Report for list of entities, selected by query`
+第二个示例报表是 `recent-visits` 报表。这个报表需要可以直接从就诊记录浏览界面下载。这个报表中包含最近一个月的就诊记录，以 Excel 文件的方式导出，应该包含宠物及其主人的信息。
+
+
+要满足这个需求，第一步通过报表向导创建一个报表。后续的主要设置是：
+
+* Report Entity （报表实体）: `Visit (petclinic_Visit)`
+* Template Type (模板类型): `XLSX`
+* Report Name （报表名称）: `Vists by Period`
+* Report Type （报表类型）: `Report for list of entities, selected by query`
 
 
 The next step is to define the query. The report Wizard allows users to set the query by defining conditions through the UI.
 
-In this report the visits of the last month should be selected. However, the concept of "relative dates" is not present in the Reporting add-on directly. Due to this, this piece of logic has to be externalized to the code that triggers the report run.
+下一步是定义查询。报表向导允许用户通过界面以定义条件的方式设置查询。
 
-The report itself is going to be a little more generic in the sense that it allows to specify a period that defines the date range of the visits that will be taken into consideration. This also has the benefit: the report is potentially re-usable for other future use-cases.
+在这个报表中应该查询最近一个月的就诊记录。但是报表扩展中没有“相对日期”的概念。因此，这段逻辑必须在调用报表的外部代码中实现。
 
-The query consists of two conditions for the attribute `visitDate`. It should match a value that is within the range of two dates: "Visit Date Range Start" and "Visit Date Range End". The only difference between the two conditions is that for the first condition the "operation" is `greater or equal than: >=` while the second condition has the operation `smaller than: <`. With that, the boundaries of the range are expressed as conditions.
+这个报表本身允许指定日期范围参数也使得其更具通用性，这样带来的好处是此报表可以在其它场景中重用。
+
+这个查询由 `visitDate` 属性的两个条件组成。属性值应该输出两个日期之间："Visit Date Range Start(就诊起始日期)" and "Visit Date Range End（就诊结束日期）"。两个条件只有一点不同之处，对于第一个条件，“operation（比较操作符）” 是 `greater or equal than: >=（大于或等于）` ，第二个条件的 “operation（比较操作符）” 是 ‘smaller than: <（小于）’ 。With that, the boundaries of the range are expressed as conditions.
 
 image::intro-to-reports/visit-by-period-date-range-creteria.png[align="center", link="images/intro-to-reports/visit-by-period-date-range-creteria.png"]
 
-For each condition an external parameter will be created so that the concrete values can be inserted programmatically or alternatively by a user through a UI.
+报表引擎对每个条件都会创建一个外部参数，这样就可以以编程的方式提供参数值，也可以由用户通过UI提供。
 
-=== Selecting Entity Attributes of the Visit Entity
+=== Visit 实体属性的选择
 
-The next step in the wizard is to define the attributes of the base entity (Visit) and its associated entities that should be part of the report. The selection will influence, on the one hand, the `SELECT` part of the JPQL statement that is used to fetch the data. On the other hand, it influences the initial version of the columns within the template, that is generated for this report when finishing the report wizard.
+下一步是在向导中定义基础实体（Visit）的属性和其相关的需要显示在报表上的实体属性。选择的属性会产生两个影响，一个是影响用于获取数据的 JPQL 语句的 `SELECT` 部分。另一个是影响向导生成的模板中的列。
 
-For the `recent-visits` Report, the following attributes should be selected:
+对于 `recent-visits` 报表，应该选择下列属性：
 
-* Visit Date: `visitDate`
-* Visit Description: `description`
-* Information about the associated Pet
-** the Pet's name: `pet.name`
-** the Pet's Identification Number: `pet.identificationNumber`
-** Type of the Pet: `pet.type.name`
-** The city where the Pet lives (expressed through the address of its owner): `pet.owner.city`
-
-After selecting the attributes through the UI wizard, the output template file type can be configured. In this example, the default settings are applicable.
-
-With that the report wizard is finished and the report configuration is shown for further adjustments.
-
-=== Providing External Parameters Programmatically
-
-For the use case of the `recent-visits` report the generic UI is not exposed to the user. Instead, the parameters are passed in by the API call to run the report.
+* Visit Date (就诊日期): `visitDate`
+* Visit Description (就诊描述): `description`
+* 宠物相关信息：
+** 宠物名称: `pet.name`
+** 宠物身份编号: `pet.identificationNumber`
+** 宠物类型: `pet.type.name`
+** 宠物生活的城市 (即其主人生活的城市): `pet.owner.city`
 
 
-In the `patient-record` report, the report screen connection was configured in the report configuration.
+通过向导界面选择了属性后，就可以配置输出模板的文件类型。在这个示例中，默认配置就可以。
+
+使用报表向导完成报表创建后会显示出报表配置界面，这时可以进行进一步调整。
+
+=== 以编程的方式提供外部参数
+
+在 `recent-visits` 报表用例中，没有给用户暴露设置参数的通用 UI 。而是通过调用 API 以编程的方式传递参数。
+
+In the `patient-record` report, the report screen connection was configured in the report configuration. ????
+在 `patient-record` 报表中，报表界面的关联是在报表配置中进行的。
+
 
 There is an alternative approach on how to trigger report execution, which will be leveraged in this example.
 
-In this case the report instance is selected programmatically (through the `system code` attribute) and directly passed into the reports API in order to execute the report and download the resulting document.
+有一个运行报表的可选方式，这个示例中会使用它。
 
-The complete listing for the triggering of the `recent-visits` report shows the main steps of:
+在这个示例中，会以编程的方式选择报表实例（通过 `system code` 属性）然后直接传递给报表 API，以此来执行报表并下载文档，
 
-1. identifying the last month (externalized logic of relative date)
-2. loading the report instance to execute
-3. triggering the report execution and passing in the last month as a parameter
+执行 `recent-visits` 报表的主要步骤：
+
+1. 标识出最近一个月 (通过外部代码来计算相对日期)
+2. 加载要执行的报表实例
+3. 执行报表实例并传递外部参数
 
 
 .VisitBrowse.java
@@ -385,37 +414,38 @@ public class VisitBrowse extends StandardLookup<Visit> {
 
 }
 ----
-<1> the last month based on today's date is identified
-<2> `reportGuiManager.printReport` is the API for starting the execution of a report and downloading it immediately
-<3> the correct report instance needs to be loaded from the database. Here it is fetched by relying on the `code` attribute value
-<4> a parameter map is passed in containing the start and end date range parameter of the report through the `MonthYearValue` object
+<1> 标识出基于当前日期的最近一个月
+<2> `reportGuiManager.printReport` API 用于启动报表执行并立即下载文档
+<3>  需要从数据库中加载正确的报表实例。这里根据报表实例的 `code` 属性值来查找
+<4> 传递一个参数字典给报表，其中包含了起始日期和结束日期
 
-The main part for passing in the external parameters is the definition of the last month:
+这个报表中的外部参数传递中主要的部分是对最近一个月的定义：
 
 `TimeRange visitDateTimeRange = MonthYearValue.fromDate(today()).minusMonths(1);`.
 
-The `TimeRange` class is a custom abstraction of the example
-application that provides an API to define a Time Range (either a MonthYear range or a Quarter range) and has methods to get the border values of the range.
+ `TimeRange` 类是这个示例程序中的一个自定义类，提供了定义一个日期范围 (可以是年月范围和季度范围)的 API ，也包含了获取范围值的方法。
 
-After the definition of the parameters' values, the `reportGuiManager.printReport` has the ability to pass in a Map of parameters.
 
-The keys of the Map have to match the `parameterAlias` value of the parameter as configured in the Report Entity.
+定义了参数值后，可以将参数值传递给 `reportGuiManager.printReport` ，它可以接收一个字典类型的参数。
 
-== Summary
+字典中的参数键名必须与报表实体中配置的参数的 `parameterAlias` 值匹配。
 
-In this introduction to reports and documents generation, the building blocks of the CUBA add-on `Reporting` were explained. A report is the concept that allows merging a document template with data from data sources to produce an output document.
+== 总结
 
-Both building blocks, the document template as well as the data sources, can be of various kinds. With that it provides a high degree of flexibility when configuring reports to generate output documents.
+在这个关于报表和文档生成的介绍中，介绍了CUBA的 `报表` 扩展的两个主要组成部分：文档模板和数据。报表允许将文档模板和来自数据源的数据进行合并，并产生输出文档。
 
-All this configuration is hold in the main entity: `Report`, which can be created through a UI wizard or manually through the configuration UI. With that differentiation it supports users with different levels of technical capabilities.
+文档模板和数据源都支持多种类型，这样在配置报表运行输出文档时就有具有了高度的灵活性。
 
-A report can be run directly through a generic user interface, or programmatically through the code of the application. It is possible to define external parameters, that get passed into the report. With that, reports can be configured in a more generic manner to support multiple use-cases.
 
-In this guide two reports were created. The first report uses the PDF generation in order to create a patient record for a pet. The report uses the screens configuration to declaratively configure in which screens the report should be offered.
+所有的配置保存在主实体： `Report` 中，报表配置可以通过可视化的向导创建，也可以通过配置UI手动创建。两种创建方式可以支持不同技术水平的用户。
 
-The second report generates an excel sheet containing the visits of the last month. In this case external parameters were leveraged to dynamically pass in a specific date range for the report to work on.
+报表可以通过通用用户界面直接运行，也可以通过代码以编程的方式调用。可以给报表定义外部参数，外部参数需要传递给报表。有了参数，报表可以配置地更通用以适应多种用例。
 
-== Further Information
+本指南中创建了两个报表。第一个报表使用了PDF生成，用于创建宠物病历。这个报表使用了界面来声明性地配置报表可以在哪些界面中使用。????
 
-* https://doc.cuba-platform.com/reporting-7.0/index.html[CUBA docs: Reporting]
-* https://doc.cuba-platform.com/reporting-7.1/open_office.html[CUBA docs: Reporting - Appendix A: Installing and Configuring OpenOffice]
+第二个报表生成了一个包含最近一个月就诊记录的Excel工作表。在这个示例中使用了外部参数支持动态地指定报表数据的日期范围。
+
+== 更多信息
+
+* https://doc.cuba-platform.cn/reporting-7.1-chs/index.html[CUBA 文档: 报表]
+* https://doc.cuba-platform.cn/reporting-7.1-chs/open_office.html[CUBA 文档: 报表 - Appendix A: 安装和配置 OpenOffice]

@@ -4,11 +4,11 @@ compatible_java_versions: 8+
 project_id: cuba-petclinic-intro-to-reports
 permalink: introduction-to-reporting
 ---
-= 介绍报表和文档生成
+= 报表和文档生成入门
 :showtitle:
 :sectlinks:
 :sectanchors:
-:page-navtitle: 介绍报表和文档生成
+:page-navtitle: 报表和文档生成入门
 :page-excerpt: 本指南将介绍报表扩展，同时会展示使用报表扩展的各种方式，包括通过界面和以编程的方式使用
 :page-root: ../../../
 :project_id: cuba-petclinic-intro-to-reports

@@ -6,7 +6,7 @@
 
 * https://adoptopenjdk.net/[JDK {java_version}]
 * 文件编辑器或者IDE (https://www.jetbrains.com/idea/download/[推荐使用 IntelliJ IDEA] )
-* 独立运行版或者IDEA插件版的  https://www.cuba-platform.cn/tools/[CUBA Studio] (可选)
+* 独立运行版或者IDEA插件版的  https://temp.cuba-platform.cn/tools/[CUBA Studio] (可选)
 * https://github.com/cuba-platform/cuba-cli/wiki/Installation[CUBA CLI] (可选)
 
 

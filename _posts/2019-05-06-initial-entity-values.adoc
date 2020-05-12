@@ -199,9 +199,9 @@ The downside of this approach is that it is a little less invasive in terms of s
 
 相应的 UI 界面看起来是这样：
 
-image::initial-entity-values/regular-checkup-1-select-pet.png[Step 1: 选择宠物 , link="initial-entity-values/regular-checkup-1-select-pet.png"]
+image::initial-entity-values/regular-checkup-1-select-pet.png[Step 1: 选择宠物 , link="/guides/images/initial-entity-values/regular-checkup-1-select-pet.png"]
 
-image::initial-entity-values/regular-checkup-2-prefilled-visit.png[Step 2: Prefilled visit screen, link="initial-entity-values/regular-checkup-2-prefilled-visit.png"]
+image::initial-entity-values/regular-checkup-2-prefilled-visit.png[Step 2: Prefilled visit screen, link="/guides/images/initial-entity-values/regular-checkup-2-prefilled-visit.png"]
 
 == 相关属性的初始化
 

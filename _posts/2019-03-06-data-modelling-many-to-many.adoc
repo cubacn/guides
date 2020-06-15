@@ -34,9 +34,11 @@ permalink: data-modelling-many-to-many-association
 
 === 最终的应用程序
 
-++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-data-model-many-to-many/master/img/adjustments-cuba-petclinic-overview.gif"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-data-model-many-to-many/master/img/login-screen.png"/></a>
-++++
+
+
+image::data-model-many-to-many/adjustments-cuba-petclinic-overview.gif[align="center"]
+
+
 
 include::includes/guide_requirements.adoc[]
 
@@ -103,15 +105,11 @@ protected List<Vet> vets;
 
 image::data-model-many-to-many/indirect_many_to_many.png[align="center"]
 
-A `Pet` might over the years be insured by different `InsuranceCompanies` and an `InsuranceCompany` on the other hand has multiple memberships.
 
-一个 `Pet` 每年可以不同的保险公司投保，另一方面，`InsuranceCompany（保险公司）` 也会有多个
-
+一个 `Pet(宠物)` 每年可以在不同的保险公司投保，另一方面，`InsuranceCompany（保险公司）` 也会有多个投保有关系。
 
 在数据库中，这种关系表现为一个关联表，并且有一个显式定义的实体作为关联实体。投保关系中也要记录保险公司给宠物提供的保险范围。所以实体上有 `validFrom`  和 `validUntil` 属性。
 
-
-TIP: In the Studio entity designer, set the following settings for the `insuranceMemberships` attribute: *Attribute type* - `COMPOSITION`, *Cardinality* - `ONE_TO_MANY`.
 
 TIP: 在 Studio 提供的实体设计中, 为  `insuranceMemberships`  属性进行以下设置： *Attribute type* - `COMPOSITION` ， *Cardinality* - `ONE_TO_MANY`。
 
@@ -126,7 +124,7 @@ https://github.com/cuba-guides/cuba-petclinic-data-model-many-to-many/blob/maste
 protected List<InsuranceMembership> insurancesMemberships;
 ----
 
-TIP: 在 Studio  提供的实体设计器中给 `memberships` 属性进行以下设置: *Attribute type* - `COMPOSITION`, *Cardinality* - `ONE_TO_MANY`.
+TIP: 在 Studio  提供的实体设计器中给 `memberships` 属性进行以下设置: *Attribute type* - `COMPOSITION`, *Cardinality* - `ONE_TO_MANY` 。
 
 
 

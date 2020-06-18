@@ -13,7 +13,7 @@ permalink: localization-in-cuba-applications
 :page-icone: images/i18n-messages/guide_icone.svg
 :page-root: ../../../
 :project_id: cuba-petclinic-i18n-messages
-:page-url-first-image: https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-i18n-messages/master/img/login-screen.png
+:page-url-first-image: images/i18n-messages/login-screen.png
 :java_version: 8
 :cuba_version: 7.0
 
@@ -30,7 +30,7 @@ CUBA 应用程序对于本地化语言消息具有内建支持。语言翻译保
 === 最终应用程序
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-i18n-messages/master/img/adjustments-cuba-petclinic-overview.gif"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-i18n-messages/master/img/login-screen.png"/></a>
+<a href="images/i18n-messages/adjustments-cuba-petclinic-overview.gif"><img src="images/i18n-messages/login-screen.png"/></a>
 ++++
 
 include::includes/guide_requirements.adoc[]

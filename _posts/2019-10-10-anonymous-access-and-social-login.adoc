@@ -13,7 +13,7 @@ permalink: anonymous-access-and-social-login
 :page-icone: images/anonymous-access-and-social-login/guide_icone.svg
 :page-root: ../../../
 :project_id: cuba-petclinic-social-login
-:page-url-first-image: https://www.cuba-platform.com/guides/images/anonymous-access-and-social-login/initial-screen.png
+:page-url-first-image: images/anonymous-access-and-social-login/initial-screen.png
 :java_version: 8
 :cuba_version: 7.1
 
@@ -35,8 +35,8 @@ permalink: anonymous-access-and-social-login
 === 最终应用程序
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-social-login/master/img/cuba-petclinic-overview.gif">
-  <img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-social-login/master/img/login-dialog.png"/>
+<a href="images/anonymous-access-and-social-login/cuba-petclinic-overview.gif">
+  <img src="images/anonymous-access-and-social-login/login-dialog.png"/>
 </a>
 ++++
 

@@ -15,7 +15,7 @@ permalink: create-business-logic-in-cuba
 :project_id: cuba-petclinic-business-logic
 :java_version: 8
 :cuba_version: 7.0
-:page-url-first-image: https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/login-screen.png
+:page-url-first-image: images/creating-business-logic-in-cuba/login-screen.png
 :proj_business_logic: https://github.com/cuba-guides/cuba-petclinic-business-logic
 
 
@@ -31,7 +31,7 @@ permalink: create-business-logic-in-cuba
 === 最终应用程序
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/adjustments-cuba-petclinic-overview.gif"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/login-screen.png"/></a>
+<a href="images/creating-business-logic-in-cuba/adjustments-cuba-petclinic-overview.gif"><img src="images/creating-business-logic-in-cuba/login-screen.png"/></a>
 ++++
 
 include::includes/guide_requirements.adoc[]
@@ -46,7 +46,7 @@ include::includes/petclinic_introduction.adoc[]
 
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/calculate-discout-for-pet.png"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/calculate-discout-for-pet.png"/></a>
+<a href="images/creating-business-logic-in-cuba/calculate-discout-for-pet.png"><img src="images/creating-business-logic-in-cuba/calculate-discout-for-pet.png"/></a>
 ++++
 
 查看诊所应用程序中的 *Calculate discount* 按钮和界面控制器实现 ： https://github.com/cuba-guides/cuba-petclinic-business-logic/blob/master/modules/web/src/com/cubaplatform/petclinic/web/pet/pet/PetBrowse.java#L15[宠物浏览]。
@@ -127,7 +127,7 @@ The example that is implemented as (multiple) client tier beans is to display th
 
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/fetch-contact-of-pet.png"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/fetch-contact-of-pet.png"/></a>
+<a href="images/creating-business-logic-in-cuba/fetch-contact-of-pet.png"><img src="images/creating-business-logic-in-cuba/fetch-contact-of-pet.png"/></a>
 ++++
 
 这个示例有两个 Bean:
@@ -239,7 +239,7 @@ image::creating-business-logic-in-cuba/using_services_1.png[使用服务的类�
 
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/create-disease-warning-mailing.png"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/create-disease-warning-mailing.png"/></a>
+<a href="images/creating-business-logic-in-cuba/create-disease-warning-mailing.png"><img src="images/creating-business-logic-in-cuba/create-disease-warning-mailing.png"/></a>
 ++++
 
 

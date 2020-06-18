@@ -13,7 +13,7 @@ permalink: data-modelling-many-to-many-association
 :page-icone: images/data-model-many-to-many/guide_icone.svg
 :page-root: ../../../
 :project_id: cuba-petclinic-data-model-many-to-many
-:page-url-first-image: https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-data-model-many-to-many/master/img/login-screen.png
+:page-url-first-image: images/data-model-many-to-many/login-screen.png
 :java_version: 8
 :cuba_version: 7.0
 
@@ -35,9 +35,9 @@ permalink: data-modelling-many-to-many-association
 === 最终的应用程序
 
 
-
-image::data-model-many-to-many/adjustments-cuba-petclinic-overview.gif[align="center"]
-
+++++
+<a href="images/data-model-many-to-many/adjustments-cuba-petclinic-overview.gif"><img src="images/data-model-many-to-many/login-screen.png"/></a>
+++++
 
 
 include::includes/guide_requirements.adoc[]

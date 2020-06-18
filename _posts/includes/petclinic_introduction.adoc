@@ -13,5 +13,5 @@ image::domain-model.png[领域模型]
 
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-platform/cuba-petclinic/master/img/cuba-petclinic-overview.gif"><img src="https://raw.githubusercontent.com/cuba-platform/cuba-petclinic/master/img/login-screen.png"/></a>
+<a href="images/intro-to-working-with-data-in-CUBA/cuba-petclinic-overview.gif"><img src="images/intro-to-working-with-data-in-CUBA/login-screen1.png"/></a>
 ++++

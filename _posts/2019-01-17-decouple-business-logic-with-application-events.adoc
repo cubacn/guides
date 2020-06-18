@@ -11,7 +11,7 @@ permalink: decouple-business-logic-with-app-events
 :page-navtitle: 使用应用程序事件解耦业务逻辑
 :page-excerpt: 概述在 CUBA 应用程序中如何使用应用程序事件解耦业务逻辑
 :page-icone: images/decouple-business-logic-with-application-events/guide_icone.svg
-:page-url-first-image: https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-intro-to-application-events/master/img/login-screen.png
+:page-url-first-image: images/decouple-business-logic-with-application-events/login-screen.png
 :page-root: ../../../
 :project_id: cuba-petclinic-intro-to-application-events
 :java_version: 8
@@ -31,7 +31,7 @@ permalink: decouple-business-logic-with-app-events
 === 最终应用程序
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-intro-to-application-events/master/img/adjustments-cuba-petclinic-overview.gif"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-intro-to-application-events/master/img/login-screen.png"/></a>
+<a href="images/decouple-business-logic-with-application-events/adjustments-cuba-petclinic-overview.gif"><img src="images/decouple-business-logic-with-application-events/login-screen.png"/></a>
 ++++
 
 include::includes/guide_requirements.adoc[]
@@ -320,7 +320,7 @@ public class InvoicingProcessInitializer implements ApplicationListener<VisitCom
 CUBA Studio 能够查看控制器的可订阅事件， 看起来像这样：
 
 ++++
-<img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-intro-to-application-events/master/img/studio-subscribe-to-events.png"/>
+<img src="images/decouple-business-logic-with-application-events/studio-subscribe-to-events.png"/>
 ++++
 
 

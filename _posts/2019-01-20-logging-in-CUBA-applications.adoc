@@ -15,7 +15,7 @@ permalink: logging-in-cuba-applications
 :project_id: cuba-petclinic-application-logging
 :java_version: 8
 :cuba_version: 7.0
-:page-url-first-image: https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-application-logging/master/img/cuba-server-log-messages.png
+:page-url-first-image: images/application-logging-in-cuba/cuba-server-log-messages.png
 
 要深入了解运行中的CUBA应用程序，记录日志是一种重要的手段。 Java生态系统具有非常成熟的应用程序日志记录机制。本指南介绍了如何在CUBA应用程序中利用这个生态系统。
 
@@ -133,7 +133,7 @@ CUBA 提供了一个用户界面，可以用来查看应用程序的运行时日
 
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-application-logging/master/img/cuba-server-log-messages.png"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-application-logging/master/img/cuba-server-log-messages.png"/></a>
+<a href="images/application-logging-in-cuba/cuba-server-log-messages.png"><img src="images/application-logging-in-cuba/cuba-server-log-messages.png"/></a>
 ++++
 
 在这个界面上可以显示不同的日志文件，也可以将日志文件下载下来。这个功能给了非管理员角色访问日志的权限，同时仍然可以限制哪些角色允许访问日志。
@@ -233,7 +233,7 @@ CUBA 默认配置多个日志输出通道(appender)。 一个输出通道描述�
 对于这种场景， CUBA 应用程序允许在运行时通过用户界面重新配置已有的logger或添加新的logger。
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-application-logging/master/img/cuba-server-log-settings.png"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-application-logging/master/img/cuba-server-log-settings.png"/></a>
+<a href="images/application-logging-in-cuba/cuba-server-log-settings.png"><img src="images/application-logging-in-cuba/cuba-server-log-settings.png"/></a>
 ++++
 
 

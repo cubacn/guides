@@ -10,19 +10,19 @@ permalink: create-business-logic-in-cuba
 :sectanchors:
 :page-navtitle: Create Business Logic in CUBA
 :page-excerpt: Guide on what options are available for putting business logic into a CUBA application
-:page-icone: images/creating-business-logic-in-cuba/guide_icone.svg
+:page-icone: https://www.cuba-platform.com/guides/images/creating-business-logic-in-cuba/guide_icone.svg
 :page-root: ../../../
 :project_id: cuba-petclinic-business-logic
 :java_version: 8
 :cuba_version: 7.0
-:page-url-first-image: https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/login-screen.png
+:page-url-first-image: images/creating-business-logic-in-cuba/login-screen.png
 :proj_business_logic: https://github.com/cuba-guides/cuba-petclinic-business-logic
 
 
 
 One of the first questions when developing a CUBA application is: _Where should I put my business logic?_ This guide will explain the options available and their pros and cons.
 
-== What Will Be Built
+== What we are going to build
 
 This guide enhances the https://github.com/cuba-platform/cuba-petclinic[CUBA petclinic] example to show where business logic can be placed in a CUBA application. Mainly discounts are calculated for Pets based on the total amount of their visits in the Petclinic.
 
@@ -30,7 +30,7 @@ This guide enhances the https://github.com/cuba-platform/cuba-petclinic[CUBA pet
 === Final Application
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/adjustments-cuba-petclinic-overview.gif"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/login-screen.png"/></a>
+<a href="images/creating-business-logic-in-cuba/adjustments-cuba-petclinic-overview.gif"><img src="images/creating-business-logic-in-cuba/login-screen.png"/></a>
 ++++
 
 include::includes/guide_requirements.adoc[]
@@ -45,7 +45,7 @@ Assuming the discount calculation should be executed when a user clicks a button
 
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/calculate-discout-for-pet.png"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/calculate-discout-for-pet.png"/></a>
+<a href="images/creating-business-logic-in-cuba/calculate-discout-for-pet.png"><img src="images/creating-business-logic-in-cuba/calculate-discout-for-pet.png"/></a>
 ++++
 
 See the *Calculate discount* button in the petclinic application and the screen controller implementation: https://github.com/cuba-guides/cuba-petclinic-business-logic/blob/master/modules/web/src/com/cubaplatform/petclinic/web/pet/pet/PetBrowse.java#L15[PetBrowse].
@@ -96,9 +96,8 @@ public class PetBrowse extends StandardLookup<Pet> {
 
         String discountMessage = "Discount for " + petName + ": " + discount + "%";
 
-        notifications.create()
-                .setCaption(discountMessage)
-                .setType(Notifications.NotificationType.TRAY)
+        notifications.create(Notifications.NotificationType.TRAY)
+                .withCaption(discountMessage)
                 .show();
     }
 }
@@ -122,7 +121,7 @@ The example that is implemented as (multiple) client tier beans is to display th
 
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/fetch-contact-of-pet.png"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/fetch-contact-of-pet.png"/></a>
+<a href="images/creating-business-logic-in-cuba/fetch-contact-of-pet.png"><img src="images/creating-business-logic-in-cuba/fetch-contact-of-pet.png"/></a>
 ++++
 
 For this there are two Spring beans:
@@ -193,7 +192,7 @@ public class PetEdit extends StandardEditor<Pet> {
     private PetContactDisplay petContactDisplay;
 
     @Subscribe("fetchContact")
-    public void fetchContact() {
+    public void fetchContact(Action.ActionPerformedEvent event) {
 
         Pet pet = getEditedEntity();
 
@@ -232,7 +231,7 @@ In the Petclinic application, the following service was created: `DiseaseWarning
 
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/create-disease-warning-mailing.png"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-business-logic/master/img/create-disease-warning-mailing.png"/></a>
+<a href="images/creating-business-logic-in-cuba/create-disease-warning-mailing.png"><img src="images/creating-business-logic-in-cuba/create-disease-warning-mailing.png"/></a>
 ++++
 
 
@@ -287,10 +286,10 @@ The UI controller usage is very similar to the invocation of a client tier bean.
 public class CreateDiseaseWarningMailing extends Screen {
 
     @Inject
-    private DiseaseWarningMailingService diseaseWarningMailingService; // <1>
+    protected DiseaseWarningMailingService diseaseWarningMailingService; // <1>
 
     @Inject
-    private Notifications notifications;
+    protected Notifications notifications;
 
     @Subscribe("createDiseaseWarningMailing")
     protected void createDiseaseWarningMailing(Action.ActionPerformedEvent event) {
@@ -298,11 +297,11 @@ public class CreateDiseaseWarningMailing extends Screen {
         int endangeredPets = diseaseWarningMailingService.warnAboutDisease(petType.getValue(),
                 disease.getValue(), city.getValue()); // <2>
 
-        closeWithCommit().then(() ->
-                notifications.create()
-                        .setCaption(endangeredPets + " Owner(s) of endangered Pets have been notified")
-                        .setType(Notifications.NotificationType.TRAY)
-                        .show()
+
+        close(new StandardCloseAction(EditorScreen.WINDOW_COMMIT_AND_CLOSE)).then(() ->
+            notifications.create(Notifications.NotificationType.TRAY)
+                .withCaption(endangeredPets + " Owner(s) of endangered Pets have been notified")
+                .show()
         );
     }
 }

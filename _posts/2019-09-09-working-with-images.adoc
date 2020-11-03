@@ -10,17 +10,17 @@ permalink: working-with-images
 :sectanchors:
 :page-navtitle: Working with Images in CUBA applications
 :page-excerpt: In this guide several ways will be explored on how to interact with images in a CUBA application
-:page-icone: images/working-with-images/guide_icone.svg
+:page-icone: https://www.cuba-platform.com/guides/images/working-with-images/guide_icone.svg
 :page-root: ../../../
 :project_id: cuba-petclinic-working-with-images
-:page-url-first-image: https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-working-with-images/master/img/login-screen.png
+:page-url-first-image: images/working-with-images/login-screen.png
 :java_version: 8
 :cuba_version: 7.0
 
 
 There are several ways to interact with images in a CUBA application. In this guide, we'll demonstrate how to upload and display images in the application on live examples. You'll also learn how to attach those images to entities and how to enable users to download the image files from the application.
 
-== What Will be Built
+== What we are going to build
 
 This guide enhances the https://github.com/cuba-platform/cuba-petclinic[CUBA Petclinic] example to allow users to attach images to entities and interact with them. In particular, we'll make the following:
 
@@ -32,7 +32,7 @@ This guide enhances the https://github.com/cuba-platform/cuba-petclinic[CUBA Pet
 === Final Application
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-working-with-images/master/img/adjustments-cuba-petclinic-overview.gif"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-working-with-images/master/img/login-screen.png"/></a>
+<a href="images/working-with-images/adjustments-cuba-petclinic-overview.gif"><img src="images/working-with-images/login-screen.png"/></a>
 ++++
 
 include::includes/guide_requirements.adoc[]
@@ -241,7 +241,6 @@ public class VisitEdit extends StandardEditor<Visit> {
             new VetPreviewComponentFactory( // <1>
                 uiComponents,
                 screenBuilders,
-                messageBundle,
                 this
             );
 

@@ -10,7 +10,7 @@ permalink: anonymous-access-and-social-login
 :sectanchors:
 :page-navtitle: Anonymous Access & Social Login
 :page-excerpt: In this guide the anonymous access feature and social login implementation are explained
-:page-icone: images/anonymous-access-and-social-login/guide_icone.svg
+:page-icone: https://www.cuba-platform.com/guides/images/anonymous-access-and-social-login/guide_icone.svg
 :page-root: ../../../
 :project_id: cuba-petclinic-social-login
 :page-url-first-image: https://www.cuba-platform.com/guides/images/anonymous-access-and-social-login/initial-screen.png
@@ -19,7 +19,7 @@ permalink: anonymous-access-and-social-login
 
 Applications such as online stores provide users the ability to view a list of available products, read their description, or compare with each other without logging in. But in order to make a purchase, users usually have to register, and using a social network account is the most convenient way to do it.
 
-== What Will Be Built
+== What we are going to build
 
 This guide enhances the CUBA Petclinic example to demonstrate how to enable application public access and allow users to register via social services.
 
@@ -34,8 +34,8 @@ In particular, the following topics will be covered:
 === Final Application
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-social-login/master/img/cuba-petclinic-overview.gif">
-  <img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-social-login/master/img/login-dialog.png"/>
+<a href="images/anonymous-access-and-social-login/cuba-petclinic-overview.gif">
+  <img src="images/anonymous-access-and-social-login/login-dialog.png"/>
 </a>
 ++++
 
@@ -251,8 +251,8 @@ Set the dialog width and add a login button click listener:
 @UiController("LoginDialog")
 public class LoginDialog extends LoginScreen {
 
-    @Subscribe("loginButton")
-    private void onLoginButtonClick(Button.ClickEvent event) {
+    @Subscribe("submit")
+    protected void onLoginButtonClick(ActionPerformedEvent event) {
         login();
 
         if (connection.isAuthenticated()) {
@@ -914,27 +914,25 @@ public class SocialLoginServiceBean implements SocialLoginService {
                 getUserDataFields(socialService));
         String url = userDataEndpoint + params;
 
-        return requestUserData(url);
+        return performRequest(new HttpGet(url));;
     }
 
-    private String requestUserData(String url) {
+    private String performRequest(HttpRequestBase request) {
         HttpClientConnectionManager cm = new BasicHttpClientConnectionManager();
-        HttpClient httpClient = HttpClientBuilder.create().setConnectionManager(cm)
+        HttpClient httpClient = HttpClientBuilder.create()
+                .setConnectionManager(cm)
                 .build();
-
-        HttpGet getRequest = new HttpGet(url);
         try {
-            HttpResponse httpResponse = httpClient.execute(getRequest);
+            HttpResponse httpResponse = httpClient.execute(request);
             if (httpResponse.getStatusLine().getStatusCode() != 200) {
-                throw new RuntimeException(
-                        "Unable to access Google API. Response HTTP status: " +
-                        httpResponse.getStatusLine().getStatusCode());
+                throw new RuntimeException("Unable to perform request. Response HTTP status: "
+                        + httpResponse.getStatusLine().getStatusCode());
             }
             return EntityUtils.toString(httpResponse.getEntity());
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         } finally {
-            getRequest.releaseConnection();
+            request.releaseConnection();
         }
     }
 

@@ -14,13 +14,13 @@ permalink: integration-testing-middleware
 :project_id: cuba-petclinic-testing-middleware
 :java_version: 8
 :cuba_version: 7.1
-:page-icone: images/integration-testing-middleware/testing_integration.svg
+:page-icone: https://www.cuba-platform.com/guides/images/integration-testing-middleware/testing_integration.svg
 
 Test automation is the key to every successful application development process since it normally gives a high positive return on investments for QA efforts. CUBA applications are built on the Java ecosystem which has very powerful and mature test automation capabilities. In this guide you will learn how to leverage those capabilities.
 
 First you will understand how testing in general works in a CUBA application. Afterwards, this guide will concentrate on the area of integration testing in the middleware layer.
 
-== What Will be Built
+== What we are going to build
 
 This guide enhances the https://github.com/cuba-platform/cuba-petclinic[CUBA Petclinic] example to show how existing features can be tested in an automated fashion:
 
@@ -175,7 +175,7 @@ CUBA Studio leverages the standard IntelliJ IDEA capabilities around testing and
 The first test case is about the automatic visit creation functionality of the Petclinic application. In the Visit browse screen, a user can create a new visit by entering the Pet Identification Number as a quick action. The software will go ahead and create a visit for the entered Pet.
 
 ++++
-<a href="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-intro-to-datamanager/master/img/create-visit-for-pet.png"><img src="https://raw.githubusercontent.com/cuba-guides/cuba-petclinic-intro-to-datamanager/master/img/create-visit-for-pet.png"/></a>
+<a href="images/integration-testing-middleware/create-visit-for-pet.png"><img src="images/integration-testing-middleware/create-visit-for-pet.png"/></a>
 ++++
 
 Part of this feature's implementation is a CUBA service called `VisitService` triggered from the UI. It contains one method `Visit createVisitForToday(String identificationNumber)` that is the subject of the test case.
@@ -564,13 +564,14 @@ public class DiseaseWarningMailingServiceTest {
             .isEqualTo(1);
         // and: there is one outgoing Email for CUBAs Email Sending Functionality
         assertThat(db.outgoingEmails())
-            .hasSize(1);  // <4>
+            .hasSize(1);  // <3>
     }
     // ...
 }
 ----
 <1> another guard assertion to check that there is one matching Pet for `Alabastia`
 <2> execution of the SUT for `Alabastia`
+<3> the amount of outgoing emails in the DB is one
 
 
 The second test case is the direct opposite of the first one. For a city which does not contain any pets, no emails should be sent out:
@@ -646,7 +647,7 @@ public class DiseaseWarningMailingServiceTest {
     // ...
 }
 ----
-<1> guard verification to check for `Cerulean City` that no Pets are in the DB
+<1> this nested test class focuses on the disease mailing with additional test data
 <2> `falkner` and `zapdos` is http://xunitpatterns.com/Fresh%20Fixture.html[Fresh Fixture] test data that is only available in the inner `@Nested` class
 <3> cleanup of the fixture is executed after each test case within the `@Nested` class
 
